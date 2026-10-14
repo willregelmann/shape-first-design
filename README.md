@@ -1,8 +1,8 @@
-# Invariant-Driven Development
+# Shape-First Design
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Agent skills for giving a product a map, what it's for, what it's made of, what it does and where the outside touches it, written as statements that must always hold, and for developing it by that map.
+Agent skills for designing a product shape first: find the few things it's made of, write down what must always hold about them as a map, and develop it by that map. The map says what the product is for, what it's made of, what it does and where the outside touches it, as statements that must always hold.
 
 Capable models write excellent code but rarely beautiful structure. Structure comes from the abstractions, so the map's main job is to find the few things the product is made of, chosen so its behaviour follows from them, and fix them as the core every build shares. It's meant to be enough, on its own, for a capable agent to build a working product of the right shape, with the stack and everything around the core left open. It lives with the product, not with a feature.
 
@@ -18,8 +18,8 @@ Capable models write excellent code but rarely beautiful structure. Structure co
 This repository is a Claude Code plugin and its own single-plugin marketplace:
 
 ```
-/plugin marketplace add willregelmann/invariant-driven-development
-/plugin install invariant-driven-development@invariant-driven-development
+/plugin marketplace add willregelmann/shape-first-design
+/plugin install shape-first-design@shape-first-design
 ```
 
 The skill activates when you say something like "let's start a new project, I want to build X", or you can invoke it by name.
