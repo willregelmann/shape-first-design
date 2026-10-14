@@ -19,6 +19,6 @@ Where a project's map lives, and where agents and people read it: the project's 
 - **Every project's map has the same layout**, so an agent that has read one map can find its way around any other.
 - **The map can be read without the code.** Someone who never opens the code learns what's being built, and why it has this shape.
 - The README, the `0000` record and the decision template are copied word for word and never edited per project. A copy that differs from its template is shown to the owner before it's replaced.
-- Every map file is a short description followed by invariants, in plain everyday words.
+- Every map file except the intent is a short description followed by invariants, in plain everyday words. The intent is a short pitch.
 - Every link between map files resolves.
 - A project's agent instructions point at its map.
