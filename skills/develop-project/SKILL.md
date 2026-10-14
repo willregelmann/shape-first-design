@@ -14,7 +14,7 @@ Do a piece of work in a project that has a map: the first build, a feature, a fi
 
 Capable models write excellent code but drift from structure, one reasonable change at a time. The map fixes the core abstractions. This skill keeps every change inside them, and makes drift visible the moment it happens rather than months later.
 
-**Read [the shared rules](../shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
+**Read [the shared rules](shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
 
 Each piece of work delivers:
 
@@ -92,7 +92,7 @@ Point from the code to the map where an invariant is enforced, for example a doc
 
 ### 5. Record
 
-When the work settles an architecture decision, write a record in `docs/decisions/` before the change is done, following [the shared rules for decisions](../shared/RULES.md#decisions) and the project's `0000` record. If `docs/decisions/` doesn't exist, copy [the decision templates](../shared/templates/decisions/) there first.
+When the work settles an architecture decision, write a record in `docs/decisions/` before the change is done, following [the shared rules for decisions](shared/RULES.md#decisions) and the project's `0000` record. If `docs/decisions/` doesn't exist, copy [the decision templates](shared/templates/decisions/) there first.
 
 - This skill records choices about how the project is built: how data is stored, how processes are split, how a surface is served, which dependency the core relies on. A decision about what the project is belongs to `map-project`.
 - A record's Confirmation names the checks that keep the decision true, and the map files it serves.
@@ -142,7 +142,7 @@ When asked whether the code still matches the map, audit the whole project witho
 
 When a project's decisions are written down somewhere other than records, in a plan, commit messages, research notes or a conversation, backfill them on request.
 
-1. Copy [the decision templates](../shared/templates/decisions/) if `docs/decisions/` doesn't exist.
+1. Copy [the decision templates](shared/templates/decisions/) if `docs/decisions/` doesn't exist.
 2. Gather candidates from every source. Keep the decisions that still stand. A reversed decision becomes a rejected option inside the record that replaced it, not a record of its own.
 3. Keep to the altitude: patterns and boundaries, never settings.
 4. Number records in the order the decisions were made, except where the owner names a foundation to come first.

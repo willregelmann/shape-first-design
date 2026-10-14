@@ -18,7 +18,7 @@ The map must be **enough, on its own, for a capable agent to build a working pro
 
 It's the north star for every agent that touches the project, for the project's whole life, not for one feature. This skill stops at the map. Choosing a stack, writing a plan and writing code belong to `develop-project`, and none of them happen here.
 
-**Read [the shared rules](../shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
+**Read [the shared rules](shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
 
 ## Quick Reference
 
@@ -51,7 +51,7 @@ The owner has the idea. You do the drafting. Interview where guidance is needed,
 
 ## Decisions
 
-Follow [the shared rules for decisions](../shared/RULES.md#decisions). This skill records choices about what the project is. In practice that means a record for:
+Follow [the shared rules for decisions](shared/RULES.md#decisions). This skill records choices about what the project is. In practice that means a record for:
 
 - each question the owner answers that settles a fork, including the question in `INTENT.md` when there were candidates, as `0001`;
 - each collapse or split at the primitive layer that had a real alternative, with what you considered and folded in as the options turned down;
@@ -103,7 +103,7 @@ thing it exists to do.
 
 Show the draft and get agreement before going on.
 
-When you write `INTENT.md`, also copy [templates/README.md](../shared/templates/README.md) to `docs/README.md`, and the files in [templates/decisions/](../shared/templates/decisions/) to `docs/decisions/`, word for word. The README tells an agent that has never seen this skill what the map is and how to read it. The decision templates set how records are kept. They are the same in every project, so they are never drafted, discussed or edited per project.
+When you write `INTENT.md`, also copy [templates/README.md](shared/templates/README.md) to `docs/README.md`, and the files in [templates/decisions/](shared/templates/decisions/) to `docs/decisions/`, word for word. The README tells an agent that has never seen this skill what the map is and how to read it. The decision templates set how records are kept. They are the same in every project, so they are never drafted, discussed or edited per project.
 
 ### 3. Primitives
 
@@ -241,7 +241,7 @@ A project with code but no map gets the same map a new project would, through th
 
 When the map exists, it is the project's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes the model comes here, and goes back once the map says the new thing.
 
-1. Read the whole map and its decisions first. If `docs/README.md` or the files from [templates/decisions/](../shared/templates/decisions/) are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
+1. Read the whole map and its decisions first. If `docs/README.md` or the files from [templates/decisions/](shared/templates/decisions/) are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
 2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different project, so confirm that explicitly.
 3. Propose the change as a list of files added, edited and removed, and get agreement.
 4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it. A change that reverses a recorded decision gets a new record that supersedes the old one.

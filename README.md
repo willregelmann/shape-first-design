@@ -55,19 +55,34 @@ The skill drafts and you correct. It asks only what you alone know: who it's for
 
 ```
 .claude-plugin/
-  plugin.json        # plugin manifest
-  marketplace.json   # single-plugin marketplace, so the repo installs itself
+  plugin.json          # plugin manifest
+  marketplace.json     # single-plugin marketplace, so the repo installs itself
 skills/
+  shared/              # the one source: RULES.md and the templates copied into every map
   map-project/
     SKILL.md
-    templates/
-      README.md          # copied unchanged into every map
-      decisions/         # 0000 conventions record and MADR template, copied unchanged
+    shared/            # exact copy of skills/shared/, so the skill can read it
   develop-project/
     SKILL.md
+    shared/            # exact copy of skills/shared/
+docs/                  # this repository's own map, made with map-project
+checks/
+  check_map.py         # checks this repository keeps its map's invariants
+  sync_shared.py       # copies skills/shared/ into each skill
+evals/                 # judged scenarios for the skills' behaviour (claude plugin eval)
+AGENTS.md              # points agents at the map
 ```
 
-No build system, no dependencies. The artifacts are markdown files.
+No build system and no dependencies: the skills are markdown, and the checks use only Python's standard library.
+
+## Checking
+
+```
+python3 checks/check_map.py
+claude plugin eval . --ablation none --allow-tools Write Edit Bash --scaffold --threshold 0.67
+```
+
+The first is fast and free. The second runs each scenario several times with a real agent and costs model calls.
 
 ## License
 
