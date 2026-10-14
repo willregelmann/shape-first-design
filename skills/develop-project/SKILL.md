@@ -1,6 +1,6 @@
 ---
 name: develop-project
-description: Develops a project that has a map under docs/ (INTENT.md, primitives, capabilities, interfaces and decisions), whether it's the first build or a feature, fix or refactor years later, keeping the core of the code in the primitives' shape and checking that the code keeps the invariants — use for any work in a repository with docs/INTENT.md and docs/primitives/, or when the user says "build this from the map", "check the invariants", "does the code still match the map", or "backfill the decisions". Records architecture decisions as MADR records. Changes to the model itself go through map-project.
+description: Develops a project that has a map under docs/ (INTENT.md, primitives, capabilities, interfaces and decisions), whether it's the first build or a feature, fix or refactor years later, keeping the core of the code in the primitives' shape and checking that the code keeps the invariants — use for any work in a repository with docs/INTENT.md and docs/primitives/, or when someone says "build this from the map", "check the invariants", "does the code still match the map", or "backfill the decisions". Records architecture decisions as MADR records. Changes to the model itself go through map-project.
 tags:
   - invariants
   - development
@@ -10,16 +10,18 @@ tags:
 
 # Develop Project
 
-Do a piece of work in a project that has a map: the first build, a feature, a fix or a refactor. The map in `docs/` says what the product is and what must always hold. This skill keeps the code and the map true to each other while the work gets done.
+Do a piece of work in a project that has a map: the first build, a feature, a fix or a refactor. The map in `docs/` says what the project is and what must always hold. This skill keeps the code and the map true to each other while the work gets done.
 
 Capable models write excellent code but drift from structure, one reasonable change at a time. The map fixes the core abstractions. This skill keeps every change inside them, and makes drift visible the moment it happens rather than months later.
+
+**Read [the shared rules](../shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
 
 Each piece of work delivers:
 
 - **the change itself**, with the core of the code in the primitives' shape;
 - **a check for every invariant the change touches**, named after the invariant and shown to fail when it's broken;
 - **a decision record** for each architecture decision the change makes, in `docs/decisions/`;
-- **the map, changed through `map-project`**, when the work changed what the product is.
+- **the map, changed through `map-project`**, when the work changed what the project is.
 
 ## Quick Reference
 
@@ -28,12 +30,12 @@ Each piece of work delivers:
 | 1 | Read | The intent, the map files the work touches, and the records that explain them |
 | 2 | Place the change | A few lines: which primitives, capabilities and surfaces, which invariants, and whether the model changes |
 | 3 | Build | Code whose core is named and bounded by the primitives |
-| 4 | Check | A failing-when-broken check for each touched invariant, run and reported |
+| 4 | Audit | A failing-when-broken check for each touched invariant, run and reported |
 | 5 | Record | MADR records for the architecture decisions the work made |
 | 6 | Reconcile | Code, map, records and plans agree, in the same change |
 | 7 | Report | What changed, invariant by invariant |
 
-To check a whole project against its map rather than make a change, go to [Auditing](#auditing). To write records for a project's past decisions, go to [Backfilling Decisions](#backfilling-decisions).
+To audit a whole project against its map rather than make a change, go to [Auditing a Project](#auditing-a-project). To write records for a project's past decisions, go to [Backfilling Decisions](#backfilling-decisions).
 
 ## Process
 
@@ -51,10 +53,10 @@ Before writing code, write down in a few lines: which primitives the work touche
 
 Then decide whether the work changes the model:
 
-- **It changes the model** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Stop and take it through `map-project`'s "Changing the Map" with the user. Continue once the map says the new thing.
+- **It changes the model** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Stop and take it through `map-project`'s "Changing the Map" with the owner. Continue once the map says the new thing.
 - **It doesn't** when it makes the code do what the map already says, or chooses how something is built where the map is silent. A bug fix that makes the code keep an invariant is not a model change. A fix that changes what holds is.
-- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a model change until the user says otherwise.
-- **An invariant in the way** is raised with the user, never worked around. There are two honest ways through: change the map, or find another way to build it. A quiet exception is not one of them.
+- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a model change until the owner says otherwise.
+- **An invariant in the way** is raised with the owner, never worked around. There are two honest ways through: change the map, or find another way to build it. A quiet exception is not one of them.
 
 ### 3. Build
 
@@ -68,7 +70,7 @@ Then decide whether the work changes the model:
 
 Point from the code to the map where an invariant is enforced, for example a docstring naming `docs/primitives/MEMORY.md`. Never copy the map's reasoning into comments. The map says what, and the records say why.
 
-### 4. Check
+### 4. Audit
 
 **Every invariant the change touches has a check that fails when the invariant is broken.**
 
@@ -90,13 +92,10 @@ Point from the code to the map where an invariant is enforced, for example a doc
 
 ### 5. Record
 
-When the work settles an architecture decision, write a record in `docs/decisions/` before the change is done. Follow the project's `0000` record. If `docs/decisions/` doesn't exist, copy [map-project's decision templates](../map-project/templates/decisions/) there first.
+When the work settles an architecture decision, write a record in `docs/decisions/` before the change is done, following [the shared rules for decisions](../shared/RULES.md#decisions) and the project's `0000` record. If `docs/decisions/` doesn't exist, copy [the decision templates](../shared/templates/decisions/) there first.
 
-- **Record a pattern or a boundary, not a setting.** How data is stored, how processes are split, how a surface is served, which dependency the core relies on: records. A timeout, a threshold or a class name: not records. The test: if changing it leaves the record true, it isn't one.
-- **Only what was weighed.** List the options actually considered, the reasons in the user's words where they gave them, and `TODO` where a reason is unknown.
-- **Confirmation names the checks** that keep the decision true, and the map files it serves.
-- **Reversing a recorded decision** takes a new record that supersedes the old one, and a `Superseded by ADR-NNNN.` line under the old record's title. Nothing else in an accepted record changes.
-- A decision about what the product is, rather than how it's built, belongs to `map-project`.
+- This skill records choices about how the project is built: how data is stored, how processes are split, how a surface is served, which dependency the core relies on. A decision about what the project is belongs to `map-project`.
+- A record's Confirmation names the checks that keep the decision true, and the map files it serves.
 
 ### 6. Reconcile
 
@@ -114,11 +113,11 @@ Report the change in a few sentences, then, invariant by invariant, what was tou
 | Invariant | Map file | Check | Result |
 |---|---|---|---|
 
-Results are **passes**, **fails** (with output), or **unchecked** (with why). Then list the records written or superseded, any change made to the map, anything raised with the user, and anything in the map that looked wrong.
+Results are **passes**, **fails** (with output), or **unchecked** (with why). Then list the records written or superseded, any change made to the map, anything raised with the owner, and anything in the map that looked wrong.
 
-## Auditing
+## Auditing a Project
 
-When asked whether the code still matches the map, check the whole project without changing it.
+When asked whether the code still matches the map, audit the whole project without changing it. A large map can be split by area across several agents, each auditing its part with the same verdicts.
 
 1. Read the whole map and every record.
 2. For each invariant, bold ones first, find where the code holds it and which check covers it.
@@ -130,32 +129,38 @@ When asked whether the code still matches the map, check the whole project witho
    | **Held, unchecked** | The code appears to hold it, and nothing would notice if it stopped |
    | **Broken** | The code violates it. Say where, with the specific case |
    | **Can't tell** | The code is too unclear to judge. Say what would settle it |
+   | **Not built yet** | What it depends on doesn't exist yet. Say what's missing |
 
-4. Check the core's shape: primitives with no home in the code, primitive rules held outside their primitive, and names in the code that differ from the map's.
-5. Check the records: each record's Confirmation still holds, and no decision visible in the code contradicts a record without superseding it.
-6. Report the verdict table and the shape findings, worst first. Propose fixes, and make them only when asked.
+   A measurement that's only reported is not a check, and neither is a scenario whose pass rate fails nothing. A check counts only if crossing its threshold fails the build.
+4. **Prove the important checks can fail.** For the bold invariants, break the guarding code in a copy of the project, never the project itself, and watch the check fail. Report which checks were proven this way.
+5. **Audit what agents are told, not just what the code does.** Guides, prompts, skills and agent instructions can teach a rule the map doesn't hold, and a test can assert a broken behaviour. Both are findings, and neither is proof the code is right.
+6. Check the core's shape: primitives with no home in the code, primitive rules held outside their primitive, and names in the code that differ from the map's.
+7. Check the records: each record's Confirmation still holds, and no decision visible in the code contradicts a record without superseding it.
+8. Report the verdict table and the shape findings, worst first, and anything in the map itself that looked wrong or can't be tested as written. Propose fixes, and make them only when asked.
 
 ## Backfilling Decisions
 
 When a project's decisions are written down somewhere other than records, in a plan, commit messages, research notes or a conversation, backfill them on request.
 
-1. Copy the decision templates if `docs/decisions/` doesn't exist.
+1. Copy [the decision templates](../shared/templates/decisions/) if `docs/decisions/` doesn't exist.
 2. Gather candidates from every source. Keep the decisions that still stand. A reversed decision becomes a rejected option inside the record that replaced it, not a record of its own.
 3. Keep to the altitude: patterns and boundaries, never settings.
-4. Number records in the order the decisions were made, except where the user names a foundation to come first.
+4. Number records in the order the decisions were made, except where the owner names a foundation to come first.
 5. Draft every record from its sources. List only options the sources show were weighed, and mark every unknown reason `TODO`. End each with "Written on <date>, after the fact."
-6. Ask the user about all the `TODO`s in one round. "I don't remember" is an answer, and the `TODO` stays.
+6. Ask the owner about all the `TODO`s in one round. "I don't remember" is an answer, and the `TODO` stays.
 7. Move the reasoning out of the plan into the records, in a separate commit, so the plan keeps only how and in what order.
 
 ## Common Mistakes
 
 - **Rules outside their primitive.** A service or helper that checks a primitive's invariants leaves the primitive as bare data, and the next caller skips the check. Move the rule into the primitive.
 - **Synonyms in the code.** Calling a memory a "record" or a namespace a "scope" in the code splits the vocabulary, and the map stops describing the code.
-- **Editing the map mid-feature.** Changing a map file to make the code fit skips the user, the decision record and the walk. Route it through `map-project`.
+- **Editing the map mid-feature.** Changing a map file to make the code fit skips the owner, the decision record and the walk. Route it through `map-project`.
 - **A quiet exception.** Loosening an invariant in code, skipping its check, or marking it expected to fail. Raise it instead.
 - **Checks named after functions.** `test_update_raises` says nothing when it fails. Name the promise.
 - **A check that can't fail.** A test that passes whatever the code does. Break the code once to prove it.
 - **Counting a judge's error as a pass.** A judged scenario that couldn't judge has no verdict.
+- **Counting a reported number as a check.** A metric nobody fails the build on will drift unnoticed.
+- **Trusting the tests and the guide.** A test can assert the broken behaviour, and a guide can teach it. Audit them against the map like the code.
 - **Treating the map's silence as a rule.** Where the map says nothing, decide, and record it if it's a pattern or boundary. Don't invent invariants.
 - **Recording a setting.** A record about a value goes stale the first time someone tunes it.
 - **Editing a record.** Reversing a decision in place erases why it was made. Supersede it.
