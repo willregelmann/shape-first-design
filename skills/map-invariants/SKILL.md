@@ -1,6 +1,6 @@
 ---
 name: map-invariants
-description: Maps a new product before anything is planned or built, by interviewing the user and writing its map under docs/ (INTENT.md, then primitives, capabilities and interfaces, each a short file of statements that must always hold) — use when the user says "let's start a new project", "I want to build X", "new project", "map this out", or "write the invariants", or wants to add a primitive, capability or interface to an existing map. For greenfield work only. Stops at the map and does not plan or implement.
+description: Maps a new product before anything is planned or built, by interviewing the user and writing its map under docs/ (INTENT.md, then primitives, capabilities and interfaces, each a short file of statements that must always hold, with MADR decision records for why it has that shape) — use when the user says "let's start a new project", "I want to build X", "new project", "map this out", or "write the invariants", or wants to add a primitive, capability or interface to an existing map. For greenfield work only. Stops at the map and does not plan or implement.
 tags:
   - invariants
   - intent
@@ -10,7 +10,7 @@ tags:
 
 # Map Invariants
 
-Turn an idea into a map: `INTENT.md`, `primitives/`, `capabilities/` and `interfaces/` under `docs/`, saying what the product is for, what it's made of, what it does and where the outside touches it, as statements that must always hold.
+Turn an idea into a map: `INTENT.md`, `primitives/`, `capabilities/` and `interfaces/` under `docs/`, saying what the product is for, what it's made of, what it does and where the outside touches it, as statements that must always hold. Beside it, `docs/decisions/` records why the map has the shape it has.
 
 Capable models write excellent code, but rarely beautiful structure. Structure comes from the abstractions: the few things a product is made of, chosen so that its behaviour follows from them and someone new can hold the whole of it in mind. The map's main job is to find those abstractions with the user and fix them, so every build shares the same core.
 
@@ -23,12 +23,14 @@ It is the north star for every agent that touches the product, for the product's
 | Step | Job | Output |
 |------|-----|--------|
 | 1 | Listen, and check this is greenfield | A shared picture of the idea |
-| 2 | Intent | `docs/INTENT.md`, and `docs/README.md` copied from the template |
+| 2 | Intent | `docs/INTENT.md`, plus `docs/README.md` and `docs/decisions/` copied from the templates |
 | 3 | Primitives | `docs/primitives/<NOUN>.md` |
 | 4 | Capabilities | `docs/capabilities/<VERB>.md` |
 | 5 | Interfaces | `docs/interfaces/<SURFACE>.md` |
 | 6 | Walk the map | Gaps closed, behaviour with its primitive, links resolve, nothing built in |
 | 7 | Hand off | A short summary, then stop |
+
+Decision records in `docs/decisions/` are written during Steps 2 to 6, as soon as the user settles each choice. See [Decisions](#decisions).
 
 Filenames are uppercase with a `.md` extension: a singular noun for a primitive, a verb for a capability, the surface's common name for an interface.
 
@@ -84,6 +86,25 @@ The user has the idea. You do the drafting. Interview where guidance is needed, 
 - **A default is not a guess.** A default is something the user sees and confirms. A guess is something written into the map that they never saw. If the user doesn't answer, the statement stays out.
 - **Unresolved is a legitimate outcome.** Leave the statement out and carry the question to the hand-off.
 
+## Decisions
+
+The map says what holds. `docs/decisions/` says why, as [MADR](https://adr.github.io/madr/) records. Every map starts with two files copied word for word from [templates/decisions/](templates/decisions/): `0000-record-decisions-as-madr.md`, which sets the conventions, and `adr-template.md`. Like the README, they are the same in every product and never drafted or edited per product.
+
+**Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking: two capable builders would choose differently and the user would mind. In practice that means:
+
+- each question the user answers that settles a fork, including the question in `INTENT.md` when there were candidates;
+- each collapse or split at the primitive layer that had a real alternative, with what you considered and folded in as the options turned down;
+- each capability folded into a primitive, and each surface named, when there was a real alternative.
+
+Small choices that answer one question share a record, with the options grouped under each part of the question. The title states the decision: "One kind of memory: observations, beliefs and concepts differ by evidence, not by type".
+
+- **A pattern or a boundary, not a setting.** The same swap test as for invariants: if changing a value or a name leaves the record true, it isn't a record.
+- **Modelling decisions only.** This skill records what shaped the map. Decisions about the stack, storage and deployment come later, from whoever builds, in the same folder.
+- **The map never links to a record.** A record can be superseded, and the map carries no history. A record links to the map files that hold its decision, and its Confirmation names the invariants that keep it true.
+- **Only what was weighed.** List the options that were actually on the table, give the user's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option to make a record look complete.
+- **Written at the time.** Write the record right after the user agrees, while the options and reasons are in front of you, not reconstructed at the end.
+- **Never edited.** A reversed decision gets a new record that supersedes the old one.
+
 ## Process
 
 ### 1. Listen
@@ -94,7 +115,7 @@ Check the ground:
 
 - **Source code already here?** This skill maps products that don't exist yet, before any architectural decision. Say so, and ask how to proceed.
 - **A map already here** (`docs/INTENT.md` with `docs/primitives/` beside it)? Go to [Changing the Map](#changing-the-map).
-- **A prototype or earlier attempt?** Read it for what turned out to matter, not for how it worked. Keep the consequence and drop the cause: "empty audio clips deadlock the player" becomes "silence is never ambiguous". A later build is expected to rediscover the details, and that is intended.
+- **A prototype or earlier attempt?** Read it for what turned out to matter, not for how it worked. Keep the consequence and drop the cause: "empty audio clips deadlock the player" becomes "silence is never ambiguous". A later build is expected to rediscover the details, and that is intended. When the prototype settled a choice the map now relies on, that choice can become a record, written after the fact.
 
 Don't research stacks, libraries or architectures. Research into the problem itself is fine when the user asks for it.
 
@@ -127,7 +148,9 @@ thing it exists to do.
 
 Show the draft and get agreement before going on.
 
-When you write `INTENT.md`, also copy [templates/README.md](templates/README.md) to `docs/README.md`, word for word. It tells an agent that has never seen this skill what the map is and how to read it. It is the same in every product, so it is never drafted, discussed or edited per product, and the rules for the map's other files don't apply to it.
+When you write `INTENT.md`, also copy [templates/README.md](templates/README.md) to `docs/README.md`, and the files in [templates/decisions/](templates/decisions/) to `docs/decisions/`, word for word. The README tells an agent that has never seen this skill what the map is and how to read it. The decision templates set how records are kept. They are the same in every product, so they are never drafted, discussed or edited per product, and the rules for the map's other files don't apply to them.
+
+If the user chose the product's question from more than one candidate, record it as `0001`.
 
 ### 3. Primitives
 
@@ -135,7 +158,7 @@ A primitive is a thing the product is made of, and that would exist in any imple
 
 This is the layer that decides whether the structure will be beautiful. Spend the most effort here.
 
-Propose the list before writing files: each name, one line on what it is, and why it's its own thing. Also list what you considered and folded in. Expect three to six.
+Propose the list before writing files: each name, one line on what it is, and why it's its own thing. Also list what you considered and folded in. Expect three to six. Once the user agrees, write a record for each collapse or split that had a real alternative.
 
 - **Collapse hard.** For every pair, ask if they're different kinds of thing, or the same kind in different circumstances. If what separates them is how they came to be or how they're connected, they're one primitive, and its description says so. An observation, a belief and a concept are all memories. A prepared slide and one sketched ten seconds ago are both slides.
 - **Don't collapse one word with two meanings.** Before merging, check the opposite case: the same word meaning different things in different parts of the product. If a "policy" as billing sees it and a "policy" as underwriting sees it hold different things and follow different rules, they are two primitives, even when they share an identity. Give each its own name, and say in each description how it relates to the other. If many words split this way, the idea may be more than one product. Say so to the user.
@@ -232,13 +255,14 @@ Read the whole map once, as a builder who has nothing else.
 - **Timing is said.** Each invariant that ties primitives together says whether it holds at every moment or catches up, and by when.
 - **Nothing collides.** No two invariants contradict. The same rule appearing in two files says the same thing.
 - **Nothing is built in.** Search for storage, libraries, algorithms, protocols and file layouts. Apply the swap test to each.
+- **Decisions are recorded.** Every fork the user settled has a record. Each record's Confirmation names invariants that exist. No map file links into `docs/decisions/`, and no map file explains itself with a "because" that belongs in a record.
 - **The guess test.** Ask: "If this map were all I had, what would I have to guess that the user would mind me guessing wrong?" Each answer is a missing invariant or a question for the user.
 
 Fix what you can settle and ask about the rest in one round. Adding or removing a file changes a layer's list, so it goes to the user with the questions.
 
 ### 7. Hand Off
 
-Report the product in one sentence, the names in each layer, anything deferred, any question left open, and any default you took that the user didn't explicitly confirm. Don't paste the files back.
+Report the product in one sentence, the names in each layer, the decisions recorded, anything deferred, any question left open, and any default you took that the user didn't explicitly confirm. Don't paste the files back.
 
 Then stop. Don't write a plan, pick a stack, scaffold a repository or start building, and don't offer to as part of this skill.
 
@@ -246,10 +270,10 @@ Then stop. Don't write a plan, pick a stack, scaffold a repository or start buil
 
 When the map exists, it is the product's, so a new feature changes the map in place. There is no per-feature file.
 
-1. Read the whole map first. If `docs/README.md` is missing, copy it from the template. If it differs from the template, show the user the difference and ask before replacing it.
+1. Read the whole map and its decisions first. If `docs/README.md` or the files from `templates/decisions/` are missing, copy them. If one differs from its template, show the user the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact.
 2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different product, so confirm that explicitly.
 3. Propose the change as a list of files added, edited and removed, and get agreement.
-4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it.
+4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it. A change that reverses a recorded decision gets a new record that supersedes the old one.
 5. Walk the map again (Step 6). A change to a primitive usually touches the capabilities and interfaces that mention it.
 
 ## Writing Style
@@ -260,7 +284,7 @@ When the map exists, it is the product's, so a new feature changes the map in pl
 - Concrete examples in quotes beat abstractions: "is your favorite color still pink?", "wait, why?".
 - Use colons and commas for asides, not dashes.
 - Files are short: a description and four to ten invariants. A file that keeps growing is usually two things, or a thing still missing its idea.
-- No status, no dates, no rationale for how it will be built, no references to this conversation.
+- No status, no dates, no rationale, no references to this conversation. Rationale goes in a record.
 
 ## Common Mistakes
 
@@ -280,6 +304,10 @@ When the map exists, it is the product's, so a new feature changes the map in pl
 - **Quizzing the user.** A long list of open questions hands the drafting back to them. Draft, then ask about what's left.
 - **Guessing instead of asking.** The opposite error: settling something only the user knows because asking felt like friction.
 - **Carrying a prototype's lessons across as mechanism.** Keep what turned out to matter. Leave how it was solved.
+- **Rationale in the map.** A "because" in a map file is a record waiting to be written. Move it.
+- **Recording a setting.** A record about a value or a name goes stale the first time someone tunes it. Record the pattern it belongs to, or nothing.
+- **Inventing the road not taken.** A rejected option nobody weighed makes a record look complete and makes it wrong. Write `TODO`.
+- **Editing a record.** Reversing a decision in place erases why it was made. Supersede it.
 - **Going past the map.** Suggesting a stack, a schema or a first milestone is out of scope even when it seems helpful.
 
 ## Key Principles
@@ -292,5 +320,6 @@ When the map exists, it is the product's, so a new feature changes the map in pl
 - **One idea, many rules.** The best primitive has an idea its rules follow from.
 - **Judgment next to a guarantee.** Wherever someone decides, state what is fixed regardless.
 - **Failure is visible.** For every primitive, capability and interface, the map says what the product does when it can't do its job. It never goes quiet.
+- **What and why live apart.** The map changes in place and carries no history. The decisions only grow, and explain the map without repeating it.
 - **The product owns the map.** It changes when the product changes, in place, and it carries no trace of the features that shaped it.
 - **Rediscovery is fine.** A build from this map will relearn details an earlier attempt already knew. That cost is accepted, in exchange for a map that fixes only what matters.

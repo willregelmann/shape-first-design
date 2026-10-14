@@ -1,7 +1,7 @@
 {
   "name": "invariant-driven-development",
   "version": "0.1.0",
-  "description": "Map a new product before anything is planned or built: an interview that writes its intent, primitives, capabilities and interfaces under docs/, each a short file of statements that must always hold, with the primitives fixed as the core every build shares.",
+  "description": "Map a new product before anything is planned or built: an interview that writes its intent, primitives, capabilities and interfaces under docs/, each a short file of statements that must always hold, with the primitives fixed as the core every build shares, and MADR decision records for why.",
   "author": {
     "name": "Will Regelmann"
   },

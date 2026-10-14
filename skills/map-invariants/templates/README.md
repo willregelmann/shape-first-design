@@ -6,6 +6,7 @@ These files are the map of the product. Each is a short description followed by 
 - `primitives/`: what it's made of, and how each thing behaves.
 - `capabilities/`: what it does that no one thing does.
 - `interfaces/`: where the outside touches it, and what crosses.
+- `decisions/`: why it has this shape, as decision records. The map never links to them.
 
 ## Reading the Map
 
@@ -15,3 +16,4 @@ These files are the map of the product. Each is a short description followed by 
 - An invariant that says it catches up may be held sooner, never later.
 - A build that can't keep an invariant raises it with the product's owner. It never becomes a quiet exception.
 - When the product changes, these files change in place.
+- Before reversing something here, read the records in `decisions/` that explain it, and write a new record that supersedes them.

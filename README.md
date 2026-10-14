@@ -32,6 +32,7 @@ docs/
   primitives/<NOUN>.md      what it's made of, and how each thing behaves: the core of the code
   capabilities/<VERB>.md    what it does that no one thing does
   interfaces/<SURFACE>.md   where the outside touches it: TOOLS, HOOKS, JOBS, API
+  decisions/NNNN-*.md       why it has this shape, as MADR records
 ```
 
 Each file is a short description followed by a list of invariants. An invariant is true at every moment, in every build of the product:
@@ -40,6 +41,8 @@ Each file is a short description followed by a list of invariants. An invariant 
 |------------------|-----------|
 | "Memories are rows in a SQLite table" | "A memory's content is never edited. When it turns out to be wrong, a new memory supersedes it." |
 | "Listeners can ask questions" | "No question is dropped. Every question is answered, put off out loud, or declined out loud." |
+
+The map says what holds. The decision records say why: each fork you settle during the interview is written down with the options that were turned down, so a later agent can find the reason before undoing it.
 
 The skill drafts and you correct. It asks only what you alone know: who it's for, what would make it pointless, what it must work with, and which of two reasonable shapes you want.
 
@@ -56,7 +59,9 @@ It stops at the map. Choosing a stack, writing a plan and writing code are separ
 skills/
   map-invariants/
     SKILL.md
-    templates/README.md  # copied unchanged into every map
+    templates/
+      README.md          # copied unchanged into every map
+      decisions/         # 0000 conventions record and MADR template, copied unchanged
 ```
 
 No build system, no dependencies. The artifacts are markdown files.
