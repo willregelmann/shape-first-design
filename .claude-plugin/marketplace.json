@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "invariant-driven-development",
-      "description": "Map a new product before anything is planned or built: an interview that produces a docs/invariants/ directory of intent, primitives, capabilities and interfaces, each a short file of statements that must always hold.",
+      "description": "Map a new product before anything is planned or built: an interview that writes its intent, primitives, capabilities and interfaces under docs/, each a short file of statements that must always hold, with the primitives fixed as the core every build shares.",
       "author": {
         "name": "Will Regelmann"
       },

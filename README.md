@@ -2,15 +2,15 @@
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-An agent skill for starting a new product with a map: what it's for, what it's made of, what it does and who touches it, written as statements that must always hold.
+An agent skill for starting a new product with a map: what it's for, what it's made of, what it does and where the outside touches it, written as statements that must always hold.
 
-The map is a `docs/invariants/` directory. It's meant to be enough, on its own, for a capable agent to build a working product of the right shape, while leaving how it's built open. It lives with the product, not with a feature.
+Capable models write excellent code but rarely beautiful structure. Structure comes from the abstractions, so the map's main job is to find the few things the product is made of, chosen so its behaviour follows from them, and fix them as the core every build shares. It's meant to be enough, on its own, for a capable agent to build a working product of the right shape, with the stack and everything around the core left open. It lives with the product, not with a feature.
 
 ## Skills
 
 | Skill | What it does |
 |-------|-------------|
-| [map-invariants](skills/map-invariants/SKILL.md) | Interviews you about a new product and writes `docs/invariants/`, one layer at a time, then stops |
+| [map-invariants](skills/map-invariants/SKILL.md) | Interviews you about a new product and writes its map under `docs/`, one layer at a time, then stops |
 
 ## Install
 
@@ -26,12 +26,12 @@ The skill activates when you say something like "let's start a new project, I wa
 ## The Map
 
 ```
-docs/invariants/
-  README.md              how to read the map, copied from a standard template
-  INTENT.md              what it's for, and what would make it pointless
-  primitives/<NOUN>.md   what it's made of
-  capabilities/<VERB>.md what it does with those things
-  interfaces/<NAME>.md   who or what touches it from outside
+docs/
+  README.md                 how to read the map, copied from a standard template
+  INTENT.md                 what it's for, and what would make it pointless
+  primitives/<NOUN>.md      what it's made of, and how each thing behaves: the core of the code
+  capabilities/<VERB>.md    what it does that no one thing does
+  interfaces/<SURFACE>.md   where the outside touches it: TOOLS, HOOKS, JOBS, API
 ```
 
 Each file is a short description followed by a list of invariants. An invariant is true at every moment, in every build of the product:
