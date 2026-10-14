@@ -1,5 +1,5 @@
 ---
-name: map-invariants
+name: map-project
 description: Maps a new product before anything is planned or built, by interviewing the user and writing its map under docs/ (INTENT.md, then primitives, capabilities and interfaces, each a short file of statements that must always hold, with MADR decision records for why it has that shape) — use when the user says "let's start a new project", "I want to build X", "new project", "map this out", or "write the invariants", or wants to add a primitive, capability or interface to an existing map. For greenfield work only. Stops at the map and does not plan or implement.
 tags:
   - invariants
@@ -8,7 +8,7 @@ tags:
   - design
 ---
 
-# Map Invariants
+# Map Project
 
 Turn an idea into a map: `INTENT.md`, `primitives/`, `capabilities/` and `interfaces/` under `docs/`, saying what the product is for, what it's made of, what it does and where the outside touches it, as statements that must always hold. Beside it, `docs/decisions/` records why the map has the shape it has.
 

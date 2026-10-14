@@ -10,7 +10,7 @@ Capable models write excellent code but rarely beautiful structure. Structure co
 
 | Skill | What it does |
 |-------|-------------|
-| [map-invariants](skills/map-invariants/SKILL.md) | Interviews you about a new product and writes its map under `docs/`, one layer at a time, then stops |
+| [map-project](skills/map-project/SKILL.md) | Interviews you about a new product and writes its map under `docs/`, one layer at a time, then stops |
 
 ## Install
 
@@ -57,7 +57,7 @@ It stops at the map. Choosing a stack, writing a plan and writing code are separ
   plugin.json        # plugin manifest
   marketplace.json   # single-plugin marketplace, so the repo installs itself
 skills/
-  map-invariants/
+  map-project/
     SKILL.md
     templates/
       README.md          # copied unchanged into every map
