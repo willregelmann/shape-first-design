@@ -18,19 +18,19 @@ The map must be **enough, on its own, for a capable agent to build a working pro
 
 It's the north star for every agent that touches the project, for the project's whole life, not for one feature. This skill stops at the map. Choosing a stack, writing a plan and writing code belong to `develop-project`, and none of them happen here.
 
-**Read [the shared rules](shared/RULES.md) first.** They define the words, the map's layout and layers, what counts as an invariant, how decisions are kept, and the writing style. This skill doesn't restate them.
+**Read [the shared rules](#shared-rules) first.** They're at the end of this file: the words, the map's layout and layers, what counts as an invariant, how decisions are kept, the writing style, and the templates. They come from one source shared by both skills.
 
 ## Quick Reference
 
 | Step | Job | Output |
 |------|-----|--------|
 | 1 | Listen, and check the ground: new, existing code, or an existing map | A shared picture of the project |
-| 2 | Intent | `docs/INTENT.md`, plus `docs/README.md` and `docs/decisions/` copied from the templates |
+| 2 | Intent | `docs/INTENT.md`, `docs/README.md` and `docs/decisions/` copied from the templates, and a pointer to the map in `AGENTS.md` |
 | 3 | Primitives | `docs/primitives/<NOUN>.md` |
 | 4 | Capabilities | `docs/capabilities/<VERB>.md` |
 | 5 | Interfaces | `docs/interfaces/<SURFACE>.md` |
 | 6 | Walk the map | Gaps closed, behaviour with its primitive, links resolve, nothing built in |
-| 7 | Hand off | A short summary and a pointer to the map, then stop |
+| 7 | Hand off | A short summary, then stop |
 
 Decision records are written during Steps 2 to 6, as soon as the owner settles each choice. See [Decisions](#decisions).
 
@@ -51,7 +51,7 @@ The owner has the idea. You do the drafting. Interview where guidance is needed,
 
 ## Decisions
 
-Follow [the shared rules for decisions](shared/RULES.md#decisions). This skill records choices about what the project is. In practice that means a record for:
+Follow [the shared rules for decisions](#decisions-1). This skill records choices about what the project is. In practice that means a record for:
 
 - each question the owner answers that settles a fork, including the question in `INTENT.md` when there were candidates, as `0001`;
 - each collapse or split at the primitive layer that had a real alternative, with what you considered and folded in as the options turned down;
@@ -103,7 +103,15 @@ thing it exists to do.
 
 Show the draft and get agreement before going on.
 
-When you write `INTENT.md`, also copy [templates/README.md](shared/templates/README.md) to `docs/README.md`, and the files in [templates/decisions/](shared/templates/decisions/) to `docs/decisions/`, word for word. The README tells an agent that has never seen this skill what the map is and how to read it. The decision templates set how records are kept. They are the same in every project, so they are never drafted, discussed or edited per project.
+When you write `INTENT.md`, also copy [the README template](#docsreadmemd) to `docs/README.md`, and the two decision templates in [Templates](#templates) to `docs/decisions/`, word for word. The README tells an agent that has never seen this skill what the map is and how to read it. The decision templates set how records are kept. They are the same in every project, so they are never drafted, discussed or edited per project.
+
+In the same step, point the project's agent instructions at the map, so the pointer is in place however the session ends. Add these lines to `AGENTS.md`, or to `CLAUDE.md` if that's the file the project already uses, creating `AGENTS.md` if neither exists:
+
+```markdown
+## The Map
+
+This project has a map in `docs/`: what it's for, what it's made of and what must always hold, with decision records for why. Read `docs/README.md` before changing code, and work with the `develop-project` skill.
+```
 
 ### 3. Primitives
 
@@ -217,13 +225,7 @@ Fix what you can settle and ask about the rest in one round. Adding or removing 
 
 Report the project in one sentence, the names in each layer, the decisions recorded, anything deferred, any question left open, and any default you took that the owner didn't explicitly confirm. Don't paste the files back.
 
-Before stopping, make sure the project's agent instructions point at the map, so that any agent working in the repository finds it. Add these lines to `AGENTS.md`, or to `CLAUDE.md` if that's the file the project uses, creating it if neither exists:
-
-```markdown
-## The Map
-
-This project has a map in `docs/`: what it's for, what it's made of and what must always hold, with decision records for why. Read `docs/README.md` before changing code, and work with the `develop-project` skill.
-```
+Before stopping, check that the pointer from Step 2 is still in the project's agent instructions.
 
 Then stop. Don't write a plan, pick a stack, scaffold a repository or start building. Building is `develop-project`'s job. For a project that already has code, say that `develop-project`'s audit is the natural next step: it shows where the code and the new map disagree.
 
@@ -241,7 +243,7 @@ A project with code but no map gets the same map a new project would, through th
 
 When the map exists, it is the project's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes the model comes here, and goes back once the map says the new thing.
 
-1. Read the whole map and its decisions first. If `docs/README.md` or the files from [templates/decisions/](shared/templates/decisions/) are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
+1. Read the whole map and its decisions first. If `docs/README.md` or the decision templates are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
 2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different project, so confirm that explicitly.
 3. Propose the change as a list of files added, edited and removed, and get agreement.
 4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it. A change that reverses a recorded decision gets a new record that supersedes the old one.
@@ -282,3 +284,246 @@ When the map exists, it is the project's, so a new feature changes the map in pl
 - **What and why live apart.** The map changes in place and carries no history. The decisions only grow, and explain the map without repeating it.
 - **The project owns the map.** It changes when the project changes, in place, and it carries no trace of the features that shaped it.
 - **Rediscovery is fine.** A build from this map will relearn details an earlier attempt already knew. That cost is accepted, in exchange for a map that fixes only what matters.
+
+<!-- shared:start (generated from skills/shared/ by checks/sync_shared.py; edit there) -->
+
+## Shared Rules
+
+These rules come from `skills/shared/RULES.md`, the one source both skills share.
+
+Both skills, `map-project` and `develop-project`, follow these rules. This file is their one source: a skill links here instead of restating a rule, so the two can't drift apart.
+
+### Words
+
+| Word | Means |
+|---|---|
+| **Project** | What gets mapped and built, new or already existing |
+| **Owner** | The person whose project it is, and who decides what only they can know |
+| **Map** | A project's `docs/`: its intent, primitives, capabilities and interfaces |
+| **Primitive** | A thing the project is made of. The core of the code takes its shape |
+| **Capability** | A process across primitives that no one primitive owns |
+| **Interface** | A surface where the outside touches the project |
+| **Invariant** | A statement that holds at every moment, in every build |
+| **Decision** | A record of a choice someone could later want to undo, kept in `docs/decisions/` |
+| **Check** | Something that would notice an invariant breaking |
+| **Audit** | Showing whether the code keeps the map, for one change or a whole project |
+
+"User" means someone who uses the project, as in "the user is not nagged". It never means the owner.
+
+### The Map
+
+```
+docs/
+  README.md                    how to read the map, copied from templates/README.md
+  INTENT.md                    what it's for, and what would make it pointless
+  primitives/<NOUN>.md         what it's made of, and how each thing behaves
+  capabilities/<VERB>.md       what it does that no one thing does
+  interfaces/<SURFACE>.md      where the outside touches it, and what crosses
+  decisions/NNNN-<title>.md    why it has this shape, as MADR records
+```
+
+`AGENTS.md`, or `CLAUDE.md` if the project uses that, points at the map. Every file except `INTENT.md` and the records is a short description followed by invariants. Filenames are uppercase: a singular noun for a primitive, a verb for a capability, and the surface's common name for an interface.
+
+| Layer | Answers | Named with | Examples |
+|-------|---------|-----------|----------|
+| Intent | What is this for, and what would make it pointless? | The project's name | `INTENT.md` |
+| Primitives | What is it made of, and how does each thing behave? | A singular noun | `MEMORY.md`, `DECK.md`, `QUESTION.md` |
+| Capabilities | What does it do that no one thing does? | A verb | `CONSOLIDATE.md`, `RECALL.md`, `ANSWER.md` |
+| Interfaces | Where does the outside touch it, and what crosses? | The surface's common name | `TOOLS.md`, `HOOKS.md`, `JOBS.md`, `API.md` |
+
+**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
+
+A primitive file still never reads as a list of fields, and a capability file never reads as a function signature. The map says what each thing is and what holds about it, not how it's stored or called.
+
+### What Counts as an Invariant
+
+An invariant is a statement about the project that is true at every moment, in every build of it. It passes four tests:
+
+1. **Always.** It holds all the time, not at one step. If it describes a sequence, it's a procedure.
+2. **Breakable.** A build could visibly violate it, and someone could point at the violation.
+3. **Open.** Two quite different implementations could both satisfy it.
+4. **Earned.** A capable builder working from the rest of the map could plausibly get it wrong without being told. What any sensible builder would do anyway is left out.
+
+| Not an invariant | Why | Invariant |
+|------------------|-----|-----------|
+| "Memories are rows in a SQLite table" | Implementation | "A memory's content is never edited. When it turns out to be wrong, a new memory supersedes it." |
+| "Listeners can ask questions" | Feature | "No question is dropped. Every question is answered, put off out loud, or declined out loud." |
+| "Recall should be accurate" | Can't be broken visibly | "A memory that is only loosely related is labelled that way. It's never passed off as an answer." |
+| "At most three questions a week" | A tuning number | "The user is not nagged. Questions to the user are strictly limited per conversation and per week." |
+| "Load the slide, then start the audio" | Procedure | "What's seen and what's heard stay together." |
+| "Errors are handled gracefully" | Any builder would say this | "Recall that fails says it failed. An agent is never shown 'nothing relevant' when the mind wasn't searched." |
+
+**Naming a technology.** Name one only when the project must *meet* it: a runtime it has to live inside, a system it has to talk to, a format the owner insists on. Never name one the project is merely *built with*. The test: swap it out. If what's left is the same project built differently, it doesn't belong in the map.
+
+**Across primitives.** An invariant that ties two or more primitives together says when it holds: at every moment, or restored after each change and by when. "A deck's slide count always matches its slides" and "a deck's slide count catches up before anyone next opens it" are different projects to someone watching. When the owner wouldn't mind which, write the one that catches up: it's the weaker promise, and a build that holds the stronger one keeps it too.
+
+**Numbers.** State the limit, not its value. "Strictly limited per conversation" survives every build. A number is a tuning decision that a build makes and measures.
+
+### Decisions
+
+The map says what holds. `docs/decisions/` says why. The conventions for records are in the `0000` record, which is copied into every project with the MADR template; both are among the templates. In short:
+
+- **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
+- **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
+- **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
+- **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
+- **Written at the time.** A record written after the fact says so.
+- **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
+
+### Writing Style
+
+For the map and the records:
+
+- Plain, everyday words. Describe the project the way you'd explain it to someone who will never see the code.
+- Short declarative sentences in the present tense. "Never", "always", "only", "exactly one".
+- One idea per bullet. Bold the few statements in each file the project would be a different project without, and no others.
+- Concrete examples in quotes beat abstractions: "is your favorite color still pink?", "wait, why?".
+- Use colons and commas for asides, not dashes.
+- Files are short: a description and four to ten invariants. A file that keeps growing is usually two things, or a thing still missing its idea.
+- No status, no dates, no rationale, no references to the conversation that wrote it. Rationale goes in a record.
+
+## Templates
+
+Copy these into a project word for word, at the path each one names.
+
+### `docs/README.md`
+
+````markdown
+# The Map
+
+These files are the map of the project. Apart from the intent and the decision records, each is a short description followed by statements that hold in every build of it.
+
+- [INTENT.md](INTENT.md): what it's for, and what would make it pointless. Read it first.
+- `primitives/`: what it's made of, and how each thing behaves.
+- `capabilities/`: what it does that no one thing does.
+- `interfaces/`: where the outside touches it, and what crosses.
+- `decisions/`: why it has this shape, as decision records. The map never links to them.
+
+## Reading the Map
+
+- **The primitives are the core of the code.** Name the core after them, keep their boundaries, and hold each primitive's rules in that primitive. Everything around the core is the builder's choice.
+- Where the map says nothing, the choice is the builder's.
+- Bold statements are the ones the project would be a different project without.
+- An invariant that says it catches up may be held sooner, never later.
+- A build that can't keep an invariant raises it with the project's owner. It never becomes a quiet exception.
+- When the project changes, these files change in place.
+- Before reversing something here, read the records in `decisions/` that explain it, and write a new record that supersedes them.
+````
+
+### `docs/decisions/0000-record-decisions-as-madr.md`
+
+````markdown
+# Record decisions as MADR records beside the map
+
+## Context and Problem Statement
+
+The map in `docs/` says what the project is and what must always hold. By design it carries no history and no rationale, so it can change in place. But the reasons behind its shape are worth keeping too: why two things that look different are one primitive, why a word with two meanings became two, why one of two reasonable shapes was chosen. Where should that reasoning live, so that anyone about to change something can find why it is the way it is?
+
+## Decision Drivers
+
+* Someone who wants to reverse a decision can find why it was made and what was turned down.
+* The map stays free of history, and the reasoning doesn't copy it.
+* Records live next to the code and are reviewed in the same pull requests.
+
+## Considered Options
+
+* MADR records in `docs/decisions/`
+* Reasoning kept in the map
+* Reasoning kept in plans or commit messages
+
+## Decision Outcome
+
+Chosen option: "MADR records in `docs/decisions/`", because it has a fixed place for the options and their trade-offs, and it sits beside the map it explains.
+
+Conventions:
+
+* **The map says what holds. A record says why.** Neither copies the other. A record links to the map files that hold its decision. The map never links to a record, because a record can be superseded and the map carries no history.
+* **A record covers a pattern or a boundary, not a setting.** If changing a value, a threshold or a name in the code leaves the record true, that detail belongs in a plan or the code.
+* Records are numbered `NNNN-title-with-dashes.md` and start from `adr-template.md`. The title states the decision.
+* Records have no front matter. Version control holds the author and the date, and merging a record accepts it. A decision that hasn't been made stays out, as an open question.
+* A decision is never changed by editing its record. A new record names the one it supersedes, and the old record gets `Superseded by ADR-NNNN.` under its title, which is the only edit an accepted record ever gets.
+* A record stands on its own. It doesn't depend on tickets, chat threads or file paths that may move.
+* A record lists only options that were actually weighed, and marks unknown reasoning as `TODO` instead of guessing. A record written after the fact says so.
+
+### Consequences
+
+* Good, because the reasoning outlives changes to the map and to any plan.
+* Good, because the map can stay short and current.
+* Bad, because a record is only as complete as what was known when it was written, and some carry `TODO`s.
+
+## More Information
+
+MADR: <https://adr.github.io/madr/>.
+````
+
+### `docs/decisions/adr-template.md`
+
+````markdown
+# {short title, representative of solved problem and found solution}
+
+## Context and Problem Statement
+
+{Describe the context and problem statement, e.g., in free form using two to three sentences or in the form of an illustrative story. You may want to articulate the problem in form of a question and add links to collaboration boards or issue management systems.}
+
+<!-- This is an optional element. Feel free to remove. -->
+## Decision Drivers
+
+* {decision driver 1, e.g., a force, facing concern, …}
+* {decision driver 2, e.g., a force, facing concern, …}
+* … <!-- numbers of drivers can vary -->
+
+## Considered Options
+
+* {title of option 1}
+* {title of option 2}
+* {title of option 3}
+* … <!-- numbers of options can vary -->
+
+## Decision Outcome
+
+Chosen option: "{title of option 1}", because {justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force {force} | … | comes out best (see below)}.
+
+<!-- This is an optional element. Feel free to remove. -->
+### Consequences
+
+* Good, because {positive consequence, e.g., improvement of one or more desired qualities, …}
+* Bad, because {negative consequence, e.g., compromising one or more desired qualities, …}
+* … <!-- numbers of consequences can vary -->
+
+<!-- This is an optional element. Feel free to remove. -->
+### Confirmation
+
+{Describe how the implementation of/compliance with the ADR can/will be confirmed. Are the design that was decided for and its implementation in line with the decision made? E.g., a design/code review or a test with a library such as ArchUnit can help validate this. Not that although we classify this element as optional, it is included in many ADRs.}
+
+<!-- This is an optional element. Feel free to remove. -->
+## Pros and Cons of the Options
+
+### {title of option 1}
+
+<!-- This is an optional element. Feel free to remove. -->
+{example | description | pointer to more information | …}
+
+* Good, because {argument a}
+* Good, because {argument b}
+<!-- use "neutral" if the given argument weights neither for good nor bad -->
+* Neutral, because {argument c}
+* Bad, because {argument d}
+* … <!-- numbers of pros and cons can vary -->
+
+### {title of other option}
+
+{example | description | pointer to more information | …}
+
+* Good, because {argument a}
+* Good, because {argument b}
+* Neutral, because {argument c}
+* Bad, because {argument d}
+* …
+
+<!-- This is an optional element. Feel free to remove. -->
+## More Information
+
+{You might want to provide additional evidence/confidence for the decision outcome here and/or document the team agreement on the decision and/or define when/how this decision the decision should be realized and if/when it should be re-visited. Links to other decisions and resources might appear here as well.}
+````
+
+<!-- shared:end -->

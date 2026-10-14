@@ -1,4 +1,4 @@
 schema_version: "1.1"
 name: develop-reuses-the-primitive-that-fits
 context:
-  scaffold_script: ../fixtures/copy.sh
+  scaffold_script: setup.sh

@@ -2,7 +2,7 @@
 
 This repository is Shape-First Design: a Claude Code plugin with two skills, `map-project` and `develop-project`, under `skills/`. The skills are markdown with YAML front matter. There is no build system and there are no dependencies.
 
-- Edit shared rules and templates only in `skills/shared/`, then run `python3 checks/sync_shared.py` to copy them into each skill.
+- Edit shared rules and templates only in `skills/shared/`, then run `python3 checks/sync_shared.py` to write them into each skill. Never edit the generated block at the end of a `SKILL.md`.
 - Run `python3 checks/check_map.py` before committing. The judged scenarios in `evals/` cost model calls; run them when a skill's behaviour changes (see README.md).
 
 ## The Map

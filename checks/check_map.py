@@ -136,28 +136,38 @@ def each_capability_is_started_by_exactly_one_skill():
 @check
 def shared_rules_have_one_source():
     """docs/interfaces/SKILLS.md: a rule both skills rely on has one source, and neither restates it."""
-    markers = ["## What Counts as an Invariant", "## Writing Style", "1. **Always.**",
-               "**Naming a technology.**", "**Across primitives.**", "## Words"]
+    markers = ["What Counts as an Invariant", "Writing Style", "1. **Always.**",
+               "**Naming a technology.**", "**Across primitives.**", "| **Owner** |"]
     bad = []
     for skill in sorted(SKILLS.glob("*/SKILL.md")):
-        text = skill.read_text()
+        text = re.sub(r"<!-- shared:start.*?<!-- shared:end -->", "", skill.read_text(), flags=re.S)
         bad += [f"{skill.relative_to(ROOT)} restates {m!r}" for m in markers if m in text]
-        if "](shared/RULES.md" not in text:
+        if "](#shared-rules)" not in text:
             bad.append(f"{skill.relative_to(ROOT)} doesn't point at the shared rules")
     return bad
 
 
 @check
-def each_skill_carries_an_exact_copy_of_the_shared_rules():
-    """docs/interfaces/SKILLS.md: shared rules have one source (skills/shared/); each skill's copy matches it."""
+def each_skill_carries_the_shared_rules_unchanged():
+    """docs/interfaces/SKILLS.md: shared rules have one source (skills/shared/), carried inline by each skill."""
+    sys.path.insert(0, str(ROOT / "checks"))
+    from sync_shared import with_block
+    return [f"{p.relative_to(ROOT)} doesn't carry skills/shared/ as it is; run checks/sync_shared.py"
+            for p in sorted(SKILLS.glob("*/SKILL.md")) if with_block(p.read_text()) != p.read_text()]
+
+
+@check
+def each_eval_case_carries_an_exact_copy_of_its_fixture():
+    """docs/capabilities/AUDIT.md: judged runs start from the same project every time."""
+    source = ROOT / "evals" / "fixtures" / "chores"
+    want = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
     bad = []
-    source = {p.relative_to(SHARED): p.read_bytes() for p in SHARED.rglob("*") if p.is_file()}
-    for skill in sorted(p.parent for p in SKILLS.glob("*/SKILL.md")):
-        copy = skill / "shared"
+    for setup in sorted((ROOT / "evals").glob("*/setup.sh")):
+        copy = setup.parent / "fixture"
         have = {p.relative_to(copy): p.read_bytes() for p in copy.rglob("*") if p.is_file()} \
             if copy.exists() else {}
-        if have != source:
-            bad.append(f"{copy.relative_to(ROOT)} differs from skills/shared/; run checks/sync_shared.py")
+        if have != want:
+            bad.append(f"{copy.relative_to(ROOT)} differs from evals/fixtures/chores; run checks/sync_shared.py")
     return bad
 
 

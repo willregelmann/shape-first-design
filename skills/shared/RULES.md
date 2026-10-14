@@ -70,7 +70,7 @@ An invariant is a statement about the project that is true at every moment, in e
 
 ## Decisions
 
-The map says what holds. `docs/decisions/` says why. The conventions for records are in [templates/decisions/0000-record-decisions-as-madr.md](templates/decisions/0000-record-decisions-as-madr.md), which is copied into every project with [the MADR template](templates/decisions/adr-template.md). In short:
+The map says what holds. `docs/decisions/` says why. The conventions for records are in the `0000` record, which is copied into every project with the MADR template; both are among the templates. In short:
 
 - **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
 - **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.

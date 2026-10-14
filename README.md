@@ -60,15 +60,13 @@ The skill drafts and you correct. It asks only what you alone know: who it's for
 skills/
   shared/              # the one source: RULES.md and the templates copied into every map
   map-project/
-    SKILL.md
-    shared/            # exact copy of skills/shared/, so the skill can read it
+    SKILL.md           # carries skills/shared/ inline, written by checks/sync_shared.py
   develop-project/
-    SKILL.md
-    shared/            # exact copy of skills/shared/
+    SKILL.md           # the same
 docs/                  # this repository's own map, made with map-project
 checks/
   check_map.py         # checks this repository keeps its map's invariants
-  sync_shared.py       # copies skills/shared/ into each skill
+  sync_shared.py       # writes skills/shared/ into each skill, and the eval fixture into each case
 evals/                 # judged scenarios for the skills' behaviour (claude plugin eval)
 AGENTS.md              # points agents at the map
 ```
@@ -79,7 +77,7 @@ No build system and no dependencies: the skills are markdown, and the checks use
 
 ```
 python3 checks/check_map.py
-claude plugin eval . --ablation none --allow-tools Write Edit Bash --scaffold --threshold 0.67
+claude plugin eval . --ablation none --allow-tools Write Edit Bash --scaffold --threshold 0.67 --judge-model sonnet
 ```
 
 The first is fast and free. The second runs each scenario several times with a real agent and costs model calls.
