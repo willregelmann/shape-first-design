@@ -16,7 +16,7 @@ Capable models write excellent code, but rarely beautiful structure. Structure c
 
 The map must be **enough, on its own, for a capable agent to build a working product of the right shape**. It fixes the core and leaves the rest open. Two builders given only the map should produce the same core, with the same names and the same boundaries, on whatever stack each one chose.
 
-It is the north star for every agent that touches the product, for the product's whole life, not for one feature. This skill stops at the map. Choosing a stack, writing a plan and writing code are separate work, and none of them happen here.
+It is the north star for every agent that touches the product, for the product's whole life, not for one feature. This skill stops at the map. Choosing a stack, writing a plan and writing code belong to `develop-project`, and none of them happen here.
 
 ## Quick Reference
 
@@ -264,13 +264,21 @@ Fix what you can settle and ask about the rest in one round. Adding or removing 
 
 Report the product in one sentence, the names in each layer, the decisions recorded, anything deferred, any question left open, and any default you took that the user didn't explicitly confirm. Don't paste the files back.
 
-Then stop. Don't write a plan, pick a stack, scaffold a repository or start building, and don't offer to as part of this skill.
+Before stopping, make sure the project's agent instructions point at the map, so that any agent working in the repository finds it. Add these lines to `AGENTS.md`, or to `CLAUDE.md` if that's the file the project uses, creating it if neither exists:
+
+```markdown
+## The Map
+
+This project has a map in `docs/`: what it's for, what it's made of and what must always hold, with decision records for why. Read `docs/README.md` before changing code, and work with the `develop-project` skill.
+```
+
+Then stop. Don't write a plan, pick a stack, scaffold a repository or start building. Building is `develop-project`'s job.
 
 ## Changing the Map
 
-When the map exists, it is the product's, so a new feature changes the map in place. There is no per-feature file.
+When the map exists, it is the product's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes the model comes here, and goes back once the map says the new thing.
 
-1. Read the whole map and its decisions first. If `docs/README.md` or the files from `templates/decisions/` are missing, copy them. If one differs from its template, show the user the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact.
+1. Read the whole map and its decisions first. If `docs/README.md` or the files from `templates/decisions/` are missing, copy them. If one differs from its template, show the user the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
 2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different product, so confirm that explicitly.
 3. Propose the change as a list of files added, edited and removed, and get agreement.
 4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it. A change that reverses a recorded decision gets a new record that supersedes the old one.

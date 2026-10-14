@@ -2,7 +2,7 @@
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-An agent skill for starting a new product with a map: what it's for, what it's made of, what it does and where the outside touches it, written as statements that must always hold.
+Agent skills for giving a product a map, what it's for, what it's made of, what it does and where the outside touches it, written as statements that must always hold, and for developing it by that map.
 
 Capable models write excellent code but rarely beautiful structure. Structure comes from the abstractions, so the map's main job is to find the few things the product is made of, chosen so its behaviour follows from them, and fix them as the core every build shares. It's meant to be enough, on its own, for a capable agent to build a working product of the right shape, with the stack and everything around the core left open. It lives with the product, not with a feature.
 
@@ -11,6 +11,7 @@ Capable models write excellent code but rarely beautiful structure. Structure co
 | Skill | What it does |
 |-------|-------------|
 | [map-project](skills/map-project/SKILL.md) | Interviews you about a new product and writes its map under `docs/`, one layer at a time, then stops |
+| [develop-project](skills/develop-project/SKILL.md) | Builds and changes a mapped project: keeps the core in the primitives' shape, checks that the code keeps the invariants, records architecture decisions, and sends model changes back through `map-project` |
 
 ## Install
 
@@ -46,9 +47,9 @@ The map says what holds. The decision records say why: each fork you settle duri
 
 The skill drafts and you correct. It asks only what you alone know: who it's for, what would make it pointless, what it must work with, and which of two reasonable shapes you want.
 
-## What It Doesn't Do
+## How They Fit
 
-It stops at the map. Choosing a stack, writing a plan and writing code are separate work. It's for products that don't exist yet, before any architectural decision has been made.
+`map-project` stops at the map. `develop-project` does the work, from the first build to a fix years later, and checks every change against the map: each invariant it touches gets a check named after it that has been seen to fail. When a change would alter what the product is, it goes back through `map-project` first, so the map and its decision records stay the source of truth.
 
 ## Structure
 
@@ -62,6 +63,8 @@ skills/
     templates/
       README.md          # copied unchanged into every map
       decisions/         # 0000 conventions record and MADR template, copied unchanged
+  develop-project/
+    SKILL.md
 ```
 
 No build system, no dependencies. The artifacts are markdown files.
