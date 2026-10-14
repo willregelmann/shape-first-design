@@ -147,6 +147,8 @@ judgment, so <who> makes that call. How Y follows is fixed.">
 - <Most statements are plain, one per bullet.>
 ```
 
+A lifecycle or a relationship diagram can sit above the invariants when it saves reading. See [Diagrams](#diagrams).
+
 Look for: what it belongs to, how one comes to exist, how it changes and how it ends, what about it never changes, what is only ever added, what is kept and what deleting means, what it never claims, and what it does when it can't do its job.
 
 ### 4. Capabilities
@@ -369,6 +371,26 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
+
+### Diagrams
+
+Diagrams help a person who skims. Use them where they save reading, and nowhere else.
+
+- **Mermaid only.** It renders on GitHub and in most editors, and it's text, so it diffs and reviews like the rest of the file.
+- **A diagram follows the rules of the file it's in.** In the map it names no implementation: no tables, services or protocols. A relationship diagram of primitives never shows fields, for the same reason a primitive file never reads as a list of fields. In a plan or a README, implementation is fine.
+- **It adds to the invariants and never replaces them.** An invariant can be broken and quoted; a box in a diagram can't. When the diagram and the text disagree, the text wins and the diagram is fixed.
+- **Each layer has a natural shape:**
+
+  | Layer | Diagram |
+  |---|---|
+  | Primitives | A lifecycle (state diagram), or how primitives relate (relationship diagram) |
+  | Capabilities | A flow, or a decision |
+  | Interfaces | A sequence: who calls what, in order |
+
+- **One or two per file at most, and only where prose or a table is slower.** A short list doesn't need a picture.
+- **A gradual change isn't a state.** Something that fades or drifts goes in a note, not a self-loop.
+- **Relationship labels are a word or two:** "owns", "from", "to".
+- **Render it before committing.** A diagram that doesn't parse is worse than none.
 
 ### Writing Style
 

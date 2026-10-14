@@ -104,7 +104,7 @@ Before finishing, make the code, the map, the records and any plan agree, in the
 - **Map changes** went through `map-project` (Step 2), and no map file names an implementation.
 - **Records** for this work are written, and any decision this work reverses is superseded.
 - **Plans** (`PLAN.md` or whatever the project uses) say how the code is now built. A plan may name technologies and carry architecture diagrams. It holds no reasoning that belongs in a record.
-- **Diagrams** follow the rules of the file they're in. In the map, no implementation. In a plan or README, implementation is fine.
+- **Diagrams** follow [the shared rules for diagrams](#diagrams): in the map, no implementation; in a plan or README, implementation is fine.
 
 ### 7. Report
 
@@ -260,6 +260,26 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
+
+### Diagrams
+
+Diagrams help a person who skims. Use them where they save reading, and nowhere else.
+
+- **Mermaid only.** It renders on GitHub and in most editors, and it's text, so it diffs and reviews like the rest of the file.
+- **A diagram follows the rules of the file it's in.** In the map it names no implementation: no tables, services or protocols. A relationship diagram of primitives never shows fields, for the same reason a primitive file never reads as a list of fields. In a plan or a README, implementation is fine.
+- **It adds to the invariants and never replaces them.** An invariant can be broken and quoted; a box in a diagram can't. When the diagram and the text disagree, the text wins and the diagram is fixed.
+- **Each layer has a natural shape:**
+
+  | Layer | Diagram |
+  |---|---|
+  | Primitives | A lifecycle (state diagram), or how primitives relate (relationship diagram) |
+  | Capabilities | A flow, or a decision |
+  | Interfaces | A sequence: who calls what, in order |
+
+- **One or two per file at most, and only where prose or a table is slower.** A short list doesn't need a picture.
+- **A gradual change isn't a state.** Something that fades or drifts goes in a note, not a self-loop.
+- **Relationship labels are a word or two:** "owns", "from", "to".
+- **Render it before committing.** A diagram that doesn't parse is worse than none.
 
 ### Writing Style
 
