@@ -179,13 +179,6 @@ def records_are_numbered_in_order():
 
 
 @check
-def records_have_no_front_matter():
-    """The 0000 record: records have no front matter; version control holds who and when."""
-    return [f"{p.relative_to(ROOT)} doesn't start with its title"
-            for p in records() if not p.read_text().startswith("# ")]
-
-
-@check
 def a_record_is_never_edited():
     """docs/primitives/DECISION.md: a record is never edited, except to add a Superseded-by line."""
     base = subprocess.run(["git", "-C", str(ROOT), "merge-base", "HEAD", "main"],

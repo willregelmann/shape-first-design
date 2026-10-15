@@ -8,7 +8,8 @@ Both skills, `map-project` and `develop-project`, follow these rules. This file 
 |---|---|
 | **Project** | What gets mapped and built, new or already existing |
 | **Owner** | The person whose project it is, and who decides what only they can know |
-| **Map** | A project's `docs/`: its intent, primitives, capabilities and interfaces |
+| **Shape** | The model a person holds of a project: the few things it's made of, each with one idea behind it |
+| **Map** | The shape written down in a project's `docs/`: its intent, primitives, capabilities and interfaces |
 | **Primitive** | A thing the project is made of. The core of the code takes its shape |
 | **Capability** | A process across primitives that no one primitive owns |
 | **Interface** | A surface where the outside touches the project |
@@ -40,7 +41,7 @@ docs/
 | Capabilities | What does it do that no one thing does? | A verb | `CONSOLIDATE.md`, `RECALL.md`, `ANSWER.md` |
 | Interfaces | Where does the outside touch it, and what crosses? | The surface's common name | `TOOLS.md`, `HOOKS.md`, `JOBS.md`, `API.md` |
 
-**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
+**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Good code and an intuitive model go together: someone who has read the map can predict where each thing lives in the code and what it does, and code that's hard to explain from the map is usually a sign the map or the code has the wrong things in it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
 
 A primitive file still never reads as a list of fields, and a capability file never reads as a function signature. The map says what each thing is and what holds about it, not how it's stored or called.
 
@@ -75,7 +76,7 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
 - **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
 - **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
-- **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
+- **Only what was weighed.** List the options actually on the table, give the reason of whoever decided, in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
 

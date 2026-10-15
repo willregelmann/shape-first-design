@@ -14,6 +14,6 @@ These files are the map of the project. Apart from the intent and the decision r
 - Where the map says nothing, the choice is the builder's.
 - Bold statements are the ones the project would be a different project without.
 - An invariant that says it catches up may be held sooner, never later.
-- A build that can't keep an invariant raises it with the project's owner. It never becomes a quiet exception.
+- A build that can't keep an invariant changes the map, with a decision record, or finds another way. It never becomes a quiet exception.
 - When the project changes, these files change in place.
 - Before reversing something here, read the records in `decisions/` that explain it, and write a new record that supersedes them.

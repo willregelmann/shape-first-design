@@ -10,5 +10,4 @@ A surface where the outside touches a project: the tools an agent calls, the hoo
 - **One surface served differently by different hosts is one interface.** How each host serves it is a column in its table, and a behaviour that differs by host is a bug.
 - Its table names what crosses and what each thing does. Exact inputs and outputs belong to a later contract.
 - An interface is where naming an outside system belongs, because the project has to meet it.
-- Its invariants meet the same tests as a [primitive](PRIMITIVE.md)'s.
 - It changes in place, and carries no history and no rationale.
