@@ -1,5 +1,7 @@
 # The method is made of intents, primitives, capabilities, interfaces and decisions
 
+Superseded by ADR-0008.
+
 ## Context and Problem Statement
 
 Shape-First Design has its own map, so it has to say what the method itself is made of. The first proposal had four primitives: a map holding all its layers, the invariants in it, the decisions that explain it, and the checks that keep it true. What are the method's primitives?

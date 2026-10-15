@@ -1,5 +1,7 @@
 # Shape-First Design asks "what shape should this have, and does it still have it?"
 
+Superseded by ADR-0007.
+
 ## Context and Problem Statement
 
 Every other choice in the method serves one question, and the question decides which choices matter. Two skills share it: one finds a project's shape with the person who has the idea, the other keeps every later change true to it. Which question should Shape-First Design exist to answer?

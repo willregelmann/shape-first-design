@@ -1,4 +1,4 @@
 schema_version: "1.1"
-name: develop-routes-a-model-change
+name: develop-builds-the-core-the-map-names
 context:
   scaffold_script: setup.sh

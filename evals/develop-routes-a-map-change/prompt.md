@@ -1,5 +1,5 @@
 ---
-name: develop-routes-a-model-change
+name: develop-routes-a-map-change
 tags: [develop-project]
 plugins: ["../.."]
 runs: 3

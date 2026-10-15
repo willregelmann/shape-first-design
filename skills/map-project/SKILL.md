@@ -12,7 +12,7 @@ tags:
 
 Find a project's shape with its owner and write it down as a map: `INTENT.md`, `primitives/`, `capabilities/` and `interfaces/` under `docs/`, saying what the project is for, what it's made of, what it does and where the outside touches it, as statements that must always hold. Beside it, `docs/decisions/` records why the map has the shape it has.
 
-Capable models write excellent code, but rarely beautiful structure. Structure comes from the abstractions: the few things a project is made of, chosen so that its behaviour follows from them and someone new can hold the whole of it in mind. The map's main job is to find those abstractions with the owner and fix them, so every build shares the same core.
+Capable models write excellent code, but rarely beautiful structure. Structure comes from the abstractions: the few things a project is made of, chosen so that its behaviour follows from them and someone new can hold the whole of it in mind. Good code and an intuitive model go together, so finding that model is the design. The map's main job is to find those abstractions with the owner and fix them, so every build shares the same core.
 
 The map must be **enough, on its own, for a capable agent to build a working project of the right shape**, and readable by anyone who wants to understand the project without reading its code. It fixes the core and leaves the rest open. Two builders given only the map should produce the same core, with the same names and the same boundaries, on whatever stack each one chose.
 
@@ -76,7 +76,7 @@ Don't research stacks, libraries or architectures. Research into the problem its
 
 ### 2. Intent
 
-Draft `docs/INTENT.md` from what the owner said, and ask only for what's missing. It's an elevator pitch: about ten lines of prose with no sections, no lists and no mechanism. It says, in whatever order and words read best:
+Draft `docs/INTENT.md` from what the owner said, and ask only for what's missing. **Your first reply shows the whole draft pitch, with the questions after it**: fill every gap with a default in the draft rather than asking before drafting. It's an elevator pitch: about ten lines of prose with no sections, no lists and no mechanism. It says, in whatever order and words read best:
 
 - **What the project is**, in a few words, and the one thing that sets it apart.
 - **Its focus, in one sentence:** the question it keeps answering ("what should I have in mind right now?", "did that land?") or the promise it keeps ("nobody has to remember whose turn it is"). Use whichever the project falls into naturally. If no single sentence fits, the idea isn't sharp yet. Keep talking.
@@ -246,7 +246,7 @@ A project with code but no map gets the same map a new project would, through th
 
 ## Changing the Map
 
-When the map exists, it is the project's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes the model comes here, and goes back once the map says the new thing.
+When the map exists, it is the project's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes what the project is comes here, and goes back once the map says the new thing.
 
 1. Read the whole map and its decisions first. If `docs/README.md` or the decision templates are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
 2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different project, so confirm that explicitly.
@@ -304,7 +304,8 @@ Both skills, `map-project` and `develop-project`, follow these rules. This file 
 |---|---|
 | **Project** | What gets mapped and built, new or already existing |
 | **Owner** | The person whose project it is, and who decides what only they can know |
-| **Map** | A project's `docs/`: its intent, primitives, capabilities and interfaces |
+| **Shape** | The model a person holds of a project: the few things it's made of, each with one idea behind it |
+| **Map** | The shape written down in a project's `docs/`: its intent, primitives, capabilities and interfaces |
 | **Primitive** | A thing the project is made of. The core of the code takes its shape |
 | **Capability** | A process across primitives that no one primitive owns |
 | **Interface** | A surface where the outside touches the project |
@@ -336,7 +337,7 @@ docs/
 | Capabilities | What does it do that no one thing does? | A verb | `CONSOLIDATE.md`, `RECALL.md`, `ANSWER.md` |
 | Interfaces | Where does the outside touch it, and what crosses? | The surface's common name | `TOOLS.md`, `HOOKS.md`, `JOBS.md`, `API.md` |
 
-**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
+**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Good code and an intuitive model go together: someone who has read the map can predict where each thing lives in the code and what it does, and code that's hard to explain from the map is usually a sign the map or the code has the wrong things in it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
 
 A primitive file still never reads as a list of fields, and a capability file never reads as a function signature. The map says what each thing is and what holds about it, not how it's stored or called.
 

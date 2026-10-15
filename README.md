@@ -2,16 +2,16 @@
 
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Agent skills for designing a product shape first: find the few things it's made of, write down what must always hold about them as a map, and develop it by that map. The map says what the product is for, what it's made of, what it does and where the outside touches it, as statements that must always hold.
+Agent skills for designing a project shape first: find the few things it's made of, write down what must always hold about them as a map, and develop it by that map. The map says what the project is for, what it's made of, what it does and where the outside touches it, as statements that must always hold.
 
-Capable models write excellent code but rarely beautiful structure. Structure comes from the abstractions, so the map's main job is to find the few things the product is made of, chosen so its behaviour follows from them, and fix them as the core every build shares. It's meant to be enough, on its own, for a capable agent to build a working product of the right shape, with the stack and everything around the core left open. It lives with the product, not with a feature.
+Good code and an intuitive mental model go together. Code someone can explain with a few things is easy to change, and code that's hard to explain is usually built on the wrong things. Capable models write excellent code but rarely beautiful structure, because structure comes from the abstractions. So the map's main job is to find the few things the project is made of, chosen so its behaviour follows from them, and fix them as the core every build shares: someone who has read the map should be able to predict the code. It's meant to be enough, on its own, for a capable agent to build a working project of the right shape, with the stack and everything around the core left open. It lives with the project, not with a feature.
 
 ## Skills
 
 | Skill | What it does |
 |-------|-------------|
-| [map-project](skills/map-project/SKILL.md) | Interviews you about a new product and writes its map under `docs/`, one layer at a time, then stops |
-| [develop-project](skills/develop-project/SKILL.md) | Builds and changes a mapped project: keeps the core in the primitives' shape, checks that the code keeps the invariants, records architecture decisions, and sends model changes back through `map-project` |
+| [map-project](skills/map-project/SKILL.md) | Interviews you about a project, new or existing, and writes its map under `docs/`, one layer at a time, then stops |
+| [develop-project](skills/develop-project/SKILL.md) | Builds and changes a mapped project: keeps the core in the primitives' shape, checks that the code keeps the invariants, records architecture decisions, and sends changes to what the project is back through `map-project` |
 
 ## Install
 
@@ -36,7 +36,7 @@ docs/
   decisions/NNNN-*.md       why it has this shape, as MADR records
 ```
 
-Each file is a short description followed by a list of invariants. An invariant is true at every moment, in every build of the product:
+Each file is a short description followed by a list of invariants. An invariant is true at every moment, in every build of the project:
 
 | Not an invariant | Invariant |
 |------------------|-----------|
@@ -49,7 +49,7 @@ The skill drafts and you correct. It asks only what you alone know: who it's for
 
 ## How They Fit
 
-`map-project` stops at the map. `develop-project` does the work, from the first build to a fix years later, and checks every change against the map: each invariant it touches gets a check named after it that has been seen to fail. When a change would alter what the product is, it goes back through `map-project` first, so the map and its decision records stay the source of truth.
+`map-project` stops at the map. `develop-project` does the work, from the first build to a fix years later, and checks every change against the map: each invariant it touches gets a check named after it that has been seen to fail. When a change would alter what the project is, or the code fights the map, it goes back through `map-project` first, so the map and its decision records stay the source of truth.
 
 ## Structure
 
@@ -77,7 +77,7 @@ No build system and no dependencies: the skills are markdown, and the checks use
 
 ```
 python3 checks/check_map.py
-claude plugin eval . --ablation none --allow-tools Write Edit Bash --scaffold --threshold 0.67 --judge-model sonnet
+claude plugin eval . --ablation none --allow-tools Write Edit Bash Glob Grep --scaffold --threshold 0.67 --judge-model sonnet
 ```
 
 The first is fast and free. The second runs each scenario several times with a real agent and costs model calls.

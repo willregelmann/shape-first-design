@@ -1,6 +1,6 @@
 ---
 name: develop-project
-description: Develops a project that has a map under docs/ (INTENT.md, primitives, capabilities, interfaces and decisions), whether it's the first build or a feature, fix or refactor years later, keeping the core of the code in the primitives' shape and checking that the code keeps the invariants — use for any work in a repository with docs/INTENT.md and docs/primitives/, or when someone says "build this from the map", "check the invariants", "does the code still match the map", or "backfill the decisions". Records architecture decisions as MADR records. Changes to the model itself go through map-project.
+description: Develops a project that has a map under docs/ (INTENT.md, primitives, capabilities, interfaces and decisions), whether it's the first build or a feature, fix or refactor years later, keeping the core of the code in the primitives' shape and checking that the code keeps the invariants — use for any work in a repository with docs/INTENT.md and docs/primitives/, or when someone says "build this from the map", "check the invariants", "does the code still match the map", or "backfill the decisions". Records architecture decisions as MADR records. Changes to what the project is go through map-project.
 tags:
   - invariants
   - development
@@ -12,7 +12,7 @@ tags:
 
 Do a piece of work in a project that has a map: the first build, a feature, a fix or a refactor. The map in `docs/` says what the project is and what must always hold. This skill keeps the code and the map true to each other while the work gets done.
 
-Capable models write excellent code but drift from structure, one reasonable change at a time. The map fixes the core abstractions. This skill keeps every change inside them, and makes drift visible the moment it happens rather than months later.
+Capable models write excellent code but drift from structure, one reasonable change at a time. Good code and an intuitive model go together, so the map fixes the model: the core abstractions, in words a person can hold. This skill keeps every change inside them, so someone who has read the map can still predict the code, and makes drift visible the moment it happens rather than months later. When the code fights the map, that's evidence about the map too.
 
 **Read [the shared rules](#shared-rules) first.** They're at the end of this file: the words, the map's layout and layers, what counts as an invariant, how decisions are kept, the writing style, and the templates. They come from one source shared by both skills.
 
@@ -28,7 +28,7 @@ Each piece of work delivers:
 | Step | Job | Output |
 |------|-----|--------|
 | 1 | Read | The intent, the map files the work touches, and the records that explain them |
-| 2 | Place the change | A few lines: which primitives, capabilities and surfaces, which invariants, and whether the model changes |
+| 2 | Place the change | A few lines: which primitives, capabilities and surfaces, which invariants, and whether the map changes |
 | 3 | Build | Code whose core is named and bounded by the primitives |
 | 4 | Audit | A failing-when-broken check for each touched invariant, run and reported |
 | 5 | Record | MADR records for the architecture decisions the work made |
@@ -51,11 +51,11 @@ Read `docs/README.md` and `docs/INTENT.md`. Then read every map file the work to
 
 Before writing code, write down in a few lines: which primitives the work touches, which capability or surface it runs through, and which invariants are in play. Bold invariants first.
 
-Then decide whether the work changes the model:
+Then decide whether the work changes the map:
 
-- **It changes the model** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Stop and take it through `map-project`'s "Changing the Map" with the owner. Continue once the map says the new thing.
-- **It doesn't** when it makes the code do what the map already says, or chooses how something is built where the map is silent. A bug fix that makes the code keep an invariant is not a model change. A fix that changes what holds is.
-- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a model change until the owner says otherwise.
+- **It changes the map** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Stop and take it through `map-project`'s "Changing the Map" with the owner. Continue once the map says the new thing.
+- **It doesn't** when it makes the code do what the map already says, or chooses how something is built where the map is silent. A bug fix that makes the code keep an invariant is not a map change. A fix that changes what holds is.
+- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a map change until the owner says otherwise.
 - **An invariant in the way** is raised with the owner, never worked around. There are two honest ways through: change the map, or find another way to build it. A quiet exception is not one of them.
 
 ### 3. Build
@@ -66,6 +66,7 @@ Then decide whether the work changes the model:
 - **Surfaces** translate. An adapter for a tool, a hook, an endpoint or a screen maps the outside onto the core and holds no rules of its own. A behaviour that differs by host or client is a bug.
 - **Judgment** sits where the map says it does. Where a person or a model decides, the guarantee the map places beside the decision is enforced in code whatever the decision is.
 - **Failure is visible.** Where the map says what happens when something can't do its job, build exactly that. Never a silent fallback.
+- **When the code fights the map, suspect the map.** A special case or flag for one kind of thing, a rule that keeps wanting to live outside its primitive, a name that won't fit, or a change that needs edits in many places for one idea: each is a sign that the map has the wrong things in it, or the code has drifted from it. Say which, with the case, and raise a map flaw with the owner through `map-project`. Don't smooth it over in the code.
 - **Everything around the core is the builder's call:** stack, storage, protocols, layout. Make those choices well, and record the ones that are patterns or boundaries (Step 5).
 
 Point from the code to the map where an invariant is enforced, for example a docstring naming `docs/primitives/MEMORY.md`. Never copy the map's reasoning into comments. The map says what, and the records say why.
@@ -155,6 +156,7 @@ When a project's decisions are written down somewhere other than records, in a p
 - **Rules outside their primitive.** A service or helper that checks a primitive's invariants leaves the primitive as bare data, and the next caller skips the check. Move the rule into the primitive.
 - **Synonyms in the code.** Calling a memory a "record" or a namespace a "scope" in the code splits the vocabulary, and the map stops describing the code.
 - **Editing the map mid-feature.** Changing a map file to make the code fit skips the owner, the decision record and the walk. Route it through `map-project`.
+- **Forcing the code to fit.** Special cases and flags that make awkward code pass leave the map describing a project the code isn't. Awkward code is evidence: raise it.
 - **A quiet exception.** Loosening an invariant in code, skipping its check, or marking it expected to fail. Raise it instead.
 - **Checks named after functions.** `test_update_raises` says nothing when it fails. Name the promise.
 - **A check that can't fail.** A test that passes whatever the code does. Break the code once to prove it.
@@ -169,7 +171,7 @@ When a project's decisions are written down somewhere other than records, in a p
 
 ## Key Principles
 
-- **The map leads, and the code follows.** When the two disagree, the code changes or the map changes through `map-project`. Never the code alone, quietly.
+- **The map leads, and the code follows.** When the two disagree, the code changes or the map changes through `map-project`. Never the code alone, quietly. Code that's hard to write from the map is a reason to look at the map.
 - **The core keeps the primitives' shape.** Same names, same boundaries, rules held where they belong. Everything around it is the builder's call.
 - **An invariant without a check is a hope.** Every invariant touched gets a check that names it and has been seen to fail.
 - **Judgment gets a judge.** Deterministic rules get deterministic tests. Behaviour that rests on judgment gets judged scenarios with pass rates.
@@ -190,7 +192,8 @@ Both skills, `map-project` and `develop-project`, follow these rules. This file 
 |---|---|
 | **Project** | What gets mapped and built, new or already existing |
 | **Owner** | The person whose project it is, and who decides what only they can know |
-| **Map** | A project's `docs/`: its intent, primitives, capabilities and interfaces |
+| **Shape** | The model a person holds of a project: the few things it's made of, each with one idea behind it |
+| **Map** | The shape written down in a project's `docs/`: its intent, primitives, capabilities and interfaces |
 | **Primitive** | A thing the project is made of. The core of the code takes its shape |
 | **Capability** | A process across primitives that no one primitive owns |
 | **Interface** | A surface where the outside touches the project |
@@ -222,7 +225,7 @@ docs/
 | Capabilities | What does it do that no one thing does? | A verb | `CONSOLIDATE.md`, `RECALL.md`, `ANSWER.md` |
 | Interfaces | Where does the outside touch it, and what crosses? | The surface's common name | `TOOLS.md`, `HOOKS.md`, `JOBS.md`, `API.md` |
 
-**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
+**The primitives are the core of the code.** A build names its core after them, keeps their boundaries, and holds each primitive's invariants in that primitive. The abstractions are the design, and a build that dissolves them into services and helpers has lost it. Good code and an intuitive model go together: someone who has read the map can predict where each thing lives in the code and what it does, and code that's hard to explain from the map is usually a sign the map or the code has the wrong things in it. Everything around the core is the builder's call: storage, frameworks, protocols, layout, and where the rules of a capability or interface are enforced.
 
 A primitive file still never reads as a list of fields, and a capability file never reads as a function signature. The map says what each thing is and what holds about it, not how it's stored or called.
 
