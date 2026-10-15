@@ -4,7 +4,7 @@ A thing a project is made of, which would exist in any implementation of it. You
 
 The primitives are the core of the code. Everything about a thing, how it comes to exist, how it changes, how it ends and what it never does, lives in its primitive, so code that takes their shape gets its structure from them.
 
-Deciding what a project is made of takes judgment, so the agent drafts and the project's owner decides. That every primitive meets the same tests is fixed.
+Deciding what a project is made of takes judgment. While a project is first mapped, the agent drafts and the project's owner decides, and after that the agent changes the primitives as the project needs, recording each change. That every primitive meets the same tests is fixed.
 
 ## Invariants
 

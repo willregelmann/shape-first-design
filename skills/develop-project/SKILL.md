@@ -53,10 +53,10 @@ Before writing code, write down in a few lines: which primitives the work touche
 
 Then decide whether the work changes the map:
 
-- **It changes the map** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Stop and take it through `map-project`'s "Changing the Map" with the owner. Continue once the map says the new thing.
+- **It changes the map** when it adds, removes, merges or splits a primitive, changes what an invariant says, adds or folds a capability, or adds or changes a surface. Take it through `map-project`'s "Changing the Map", and continue once the map says the new thing and its record is written. It doesn't wait for the owner unless it touches the intent or what's deliberately out or deferred.
 - **It doesn't** when it makes the code do what the map already says, or chooses how something is built where the map is silent. A bug fix that makes the code keep an invariant is not a map change. A fix that changes what holds is.
-- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a map change until the owner says otherwise.
-- **An invariant in the way** is raised with the owner, never worked around. There are two honest ways through: change the map, or find another way to build it. A quiet exception is not one of them.
+- **A name is a signal.** If the core of the code needs a word the map doesn't have, the map is probably missing a primitive. Treat it as a map change.
+- **An invariant in the way** is never worked around. There are two honest ways through: change the map through `map-project`, or find another way to build it. A quiet exception is not one of them.
 
 ### 3. Build
 
@@ -66,7 +66,7 @@ Then decide whether the work changes the map:
 - **Surfaces** translate. An adapter for a tool, a hook, an endpoint or a screen maps the outside onto the core and holds no rules of its own. A behaviour that differs by host or client is a bug.
 - **Judgment** sits where the map says it does. Where a person or a model decides, the guarantee the map places beside the decision is enforced in code whatever the decision is.
 - **Failure is visible.** Where the map says what happens when something can't do its job, build exactly that. Never a silent fallback.
-- **When the code fights the map, suspect the map.** A special case or flag for one kind of thing, a rule that keeps wanting to live outside its primitive, a name that won't fit, or a change that needs edits in many places for one idea: each is a sign that the map has the wrong things in it, or the code has drifted from it. Say which, with the case, and raise a map flaw with the owner through `map-project`. Don't smooth it over in the code.
+- **When the code fights the map, suspect the map.** A special case or flag for one kind of thing, a rule that keeps wanting to live outside its primitive, a name that won't fit, or a change that needs edits in many places for one idea: each is a sign that the map has the wrong things in it, or the code has drifted from it. Say which, with the case. Fix a map flaw through `map-project`, and fix drifted code in the code. Don't smooth it over.
 - **Everything around the core is the builder's call:** stack, storage, protocols, layout. Make those choices well, and record the ones that are patterns or boundaries (Step 5).
 
 Point from the code to the map where an invariant is enforced, for example a docstring naming `docs/primitives/MEMORY.md`. Never copy the map's reasoning into comments. The map says what, and the records say why.
@@ -114,7 +114,7 @@ Report the change in a few sentences, then, invariant by invariant, what was tou
 | Invariant | Map file | Check | Result |
 |---|---|---|---|
 
-Results are **passes**, **fails** (with output), or **unchecked** (with why). Then list the records written or superseded, any change made to the map, anything raised with the owner, and anything in the map that looked wrong.
+Results are **passes**, **fails** (with output), or **unchecked** (with why). Then list the records written or superseded, every change made to the map with its record, so the owner can reverse it, anything that needs the owner (the intent, or what's out or deferred), and anything in the map that looked wrong.
 
 ## Auditing a Project
 
@@ -155,8 +155,8 @@ When a project's decisions are written down somewhere other than records, in a p
 
 - **Rules outside their primitive.** A service or helper that checks a primitive's invariants leaves the primitive as bare data, and the next caller skips the check. Move the rule into the primitive.
 - **Synonyms in the code.** Calling a memory a "record" or a namespace a "scope" in the code splits the vocabulary, and the map stops describing the code.
-- **Editing the map mid-feature.** Changing a map file to make the code fit skips the owner, the decision record and the walk. Route it through `map-project`.
-- **Forcing the code to fit.** Special cases and flags that make awkward code pass leave the map describing a project the code isn't. Awkward code is evidence: raise it.
+- **Editing the map mid-feature.** Changing a map file to make the code fit skips the decision record and the walk. Route it through `map-project`.
+- **Forcing the code to fit.** Special cases and flags that make awkward code pass leave the map describing a project the code isn't. Awkward code is evidence: act on it, out loud.
 - **A quiet exception.** Loosening an invariant in code, skipping its check, or marking it expected to fail. Raise it instead.
 - **Checks named after functions.** `test_update_raises` says nothing when it fails. Name the promise.
 - **A check that can't fail.** A test that passes whatever the code does. Break the code once to prove it.
@@ -260,7 +260,7 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
 - **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
 - **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
-- **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
+- **Only what was weighed.** List the options actually on the table, give the reason of whoever decided, in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
 
@@ -319,7 +319,7 @@ These files are the map of the project. Apart from the intent and the decision r
 - Where the map says nothing, the choice is the builder's.
 - Bold statements are the ones the project would be a different project without.
 - An invariant that says it catches up may be held sooner, never later.
-- A build that can't keep an invariant raises it with the project's owner. It never becomes a quiet exception.
+- A build that can't keep an invariant changes the map, with a decision record, or finds another way. It never becomes a quiet exception.
 - When the project changes, these files change in place.
 - Before reversing something here, read the records in `decisions/` that explain it, and write a new record that supersedes them.
 ````

@@ -76,7 +76,7 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
 - **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
 - **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
-- **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
+- **Only what was weighed.** List the options actually on the table, give the reason of whoever decided, in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
 

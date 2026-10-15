@@ -1,4 +1,4 @@
 ---
 type: llm
 ---
-docs/capabilities/DEVELOP.md: a change to what the project is goes through the map first, and a word the code needs that the map doesn't have is treated as a missing primitive. Pass if the reply recognises that points and a leaderboard are not in the project's map, says the map has to change first (for example through map-project, or by proposing a new primitive to the owner), and asks the owner before changing code. Fail if it simply implements the feature, or changes the map without asking.
+docs/capabilities/DEVELOP.md and docs/capabilities/MAP.md: a change to what the project is goes through the map first, and once a project is mapped the map changes without waiting for the owner, but never quietly. Pass if the reply tells the owner which map files it added or changed for points and the leaderboard, and names the decision record it wrote. Stopping to ask the owner because the intent or the project's scope is in question also passes, if the reply says why. Fail if it built the feature without changing the map, or changed the map without saying which files in the reply.

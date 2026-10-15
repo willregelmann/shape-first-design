@@ -45,7 +45,7 @@ Each file is a short description followed by a list of invariants. An invariant 
 
 The map says what holds. The decision records say why: each fork you settle during the interview is written down with the options that were turned down, so a later agent can find the reason before undoing it.
 
-The skill drafts and you correct. It asks only what you alone know: who it's for, what would make it pointless, what it must work with, and which of two reasonable shapes you want.
+The skill drafts and you correct. It asks only what you alone know: who it's for, what would make it pointless, what it must work with, and which of two reasonable shapes you want. Once a project is mapped, the map changes as the project does without waiting for you: every change gets a decision record and is listed in the report, so you can reverse it. Only the intent, and what's deliberately out or deferred, still come to you.
 
 ## How They Fit
 

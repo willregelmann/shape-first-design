@@ -248,11 +248,14 @@ A project with code but no map gets the same map a new project would, through th
 
 When the map exists, it is the project's, so a new feature changes the map in place. There is no per-feature file. Work in `develop-project` that changes what the project is comes here, and goes back once the map says the new thing.
 
+Once a project is mapped, changes don't wait for the owner. Make them, record each one, and list them in the report so the owner can reverse any of them. Only the intent, and what's deliberately out or deferred, still need the owner.
+
 1. Read the whole map and its decisions first. If `docs/README.md` or the decision templates are missing, copy them. If one differs from its template, show the owner the difference and ask before replacing it. If the map has no records but its history is written down somewhere, such as a plan, commit messages or research notes, offer to backfill records after the fact, following `develop-project`'s Backfilling Decisions.
-2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different project, so confirm that explicitly.
-3. Propose the change as a list of files added, edited and removed, and get agreement.
+2. Say which layer the change lands in. Most features add or change a primitive. A change to `INTENT.md` means it's becoming a different project, so confirm that with the owner explicitly, and do the same for anything deliberately out or deferred.
+3. List the change as files added, edited and removed, and write a record for it, with the options you weighed and your reason.
 4. Edit in place. Files say what is true now, with no history, dates or "previously". When a primitive is replaced, delete its file and fix every link to it. A change that reverses a recorded decision gets a new record that supersedes the old one.
-5. Walk the map again (Step 6). A change to a primitive usually touches the capabilities and interfaces that mention it.
+5. Walk the map again (Step 6), settling what you can yourself. A change to a primitive usually touches the capabilities and interfaces that mention it.
+6. Report every file changed and every record written, so the owner can reverse any of it.
 
 ## Common Mistakes
 
@@ -372,7 +375,7 @@ The map says what holds. `docs/decisions/` says why. The conventions for records
 - **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
 - **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
 - **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
-- **Only what was weighed.** List the options actually on the table, give the owner's reason in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
+- **Only what was weighed.** List the options actually on the table, give the reason of whoever decided, in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
 - **Written at the time.** A record written after the fact says so.
 - **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
 
@@ -431,7 +434,7 @@ These files are the map of the project. Apart from the intent and the decision r
 - Where the map says nothing, the choice is the builder's.
 - Bold statements are the ones the project would be a different project without.
 - An invariant that says it catches up may be held sooner, never later.
-- A build that can't keep an invariant raises it with the project's owner. It never becomes a quiet exception.
+- A build that can't keep an invariant changes the map, with a decision record, or finds another way. It never becomes a quiet exception.
 - When the project changes, these files change in place.
 - Before reversing something here, read the records in `decisions/` that explain it, and write a new record that supersedes them.
 ````
