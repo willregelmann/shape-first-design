@@ -53,7 +53,7 @@ The owner has the idea. You do the drafting. Interview where guidance is needed,
 
 Follow [the shared rules for decisions](#decisions-1). This skill records choices about what the project is. In practice that means a record for:
 
-- each question the owner answers that settles a fork, including the question in `INTENT.md` when there were candidates, as `0001`;
+- each question the owner answers that settles a fork, including the project's focus in `INTENT.md` when there were candidates, as `0001`;
 - each collapse or split at the primitive layer that had a real alternative, with what you considered and folded in as the options turned down;
 - each capability folded into a primitive, and each surface named, when there was a real alternative.
 
@@ -76,27 +76,30 @@ Don't research stacks, libraries or architectures. Research into the problem its
 
 ### 2. Intent
 
-Draft `docs/INTENT.md` from what the owner said, and ask only for what's missing. It's an elevator pitch: about ten lines of prose with no sections, no lists and no mechanism.
+Draft `docs/INTENT.md` from what the owner said, and ask only for what's missing. It's an elevator pitch: about ten lines of prose with no sections, no lists and no mechanism. It says, in whatever order and words read best:
+
+- **What the project is**, in a few words, and the one thing that sets it apart.
+- **Its focus, in one sentence:** the question it keeps answering ("what should I have in mind right now?", "did that land?") or the promise it keeps ("nobody has to remember whose turn it is"). Use whichever the project falls into naturally. If no single sentence fits, the idea isn't sharp yet. Keep talking.
+- **Why the obvious version is only half the job**, with concrete cases in everyday words.
+- **How it answers those cases**, and the one idea it's built on. Behaviour in broad strokes, never mechanism.
+- **The failure sentence:** an outcome someone could observe that would make it pointless, such as "if a lecture would have gone exactly the same with nobody listening". It's the most useful line in the map, so ask for it directly if the owner hasn't given it.
+
+One shape that often works, not a form to fill in:
 
 ```markdown
 # <Name>
 
-<What it is, in a few words>: <the one thing that sets it apart>.
+<What it is>: <what sets it apart>.
 
-<When it matters>, <Name> <answers | keeps open> one question: **<the question>**
+<When it matters>, <Name> answers one question: **<the question>**
 
-<Why the obvious version of this project is only half the job. Concrete cases in
-everyday words.>
+<Why the obvious version is only half the job.>
 
-<How it answers those cases, in the same order, and the one idea it's built on.
-Behaviour in broad strokes, never mechanism.>
+<How it answers that, and the idea it's built on.>
 
-If <the specific thing that would make it pointless>, <Name> has failed at the one
-thing it exists to do.
+If <what would make it pointless>, <Name> has failed at the one thing it exists to do.
 ```
 
-- The **question** is the one the project exists to keep answering: "what should I have in mind right now?", "did that land?". If you can't find one, the idea isn't sharp yet. Keep talking.
-- The **failure sentence** names an outcome someone could observe: "If a lecture would have gone exactly the same with nobody listening". It's the most useful line in the map, so ask for it directly if the owner hasn't given it.
 - If the project has no name, propose one.
 - `INTENT.md` links to nothing. It's written before the other layers exist and should read on its own.
 - It's a first draft. What sets the project apart often only becomes clear once the primitives exist, and Step 6 comes back to it.
@@ -236,7 +239,7 @@ Then stop. Don't write a plan, pick a stack, scaffold a repository or start buil
 A project with code but no map gets the same map a new project would, through the same steps and the same interview. The code is evidence, not the answer.
 
 1. **Read before drafting.** Read the code, the README and any agent instructions, plans and commit history, for what the project is, what it's made of, and what turned out to matter. Don't copy how it works into the map.
-2. **Draft every layer from what exists, as a proposal.** The owner still confirms each layer. Code shows what was built, not always what was meant, and owners often reshape it once they see it written down: a different question, primitives cut along different lines.
+2. **Draft every layer from what exists, as a proposal.** The owner still confirms each layer. Code shows what was built, not always what was meant, and owners often reshape it once they see it written down: a different focus, primitives cut along different lines.
 3. **Use the code's names where they're right, and the right names where they aren't.** When the code has drifted, with two names for one thing or a rule held far from its thing, the map says what the project should be. Note each gap for the hand-off.
 4. **Record what the history shows.** Choices settled in the conversation are recorded as usual. Choices visible only in the history can be backfilled after the fact, following `develop-project`'s Backfilling Decisions, with the owner's agreement.
 5. **A project's own conventions aren't primitives.** A file format, a folder layout or a style guide belongs on the surface that meets it, or nowhere.
@@ -278,7 +281,7 @@ When the map exists, it is the project's, so a new feature changes the map in pl
 - **The core is the design.** The primitives are the abstractions every build shares. Get them right and the rest follows. Leave them open and each build invents its own.
 - **The map is enough, and no more.** Enough for a capable builder to get the core right, and open about everything around it.
 - **Invariants over instructions.** Say what must stay true and let the builder find the way there. Statements about what holds survive a rewrite. Statements about how to build it don't.
-- **Each layer earns the next.** Intent gives the question, primitives give the words and the behaviour, capabilities do what no one thing does, and interfaces make it all reachable.
+- **Each layer earns the next.** Intent gives the focus, primitives give the words and the behaviour, capabilities do what no one thing does, and interfaces make it all reachable.
 - **Same kind of thing.** The most valuable move at the primitive layer is noticing that several things are one.
 - **One idea, many rules.** The best primitive has an idea its rules follow from.
 - **Judgment next to a guarantee.** Wherever someone decides, state what is fixed regardless.
