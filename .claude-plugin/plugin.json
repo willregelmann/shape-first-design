@@ -1,6 +1,6 @@
 {
   "name": "shape-first-design",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Map a project, then develop it by the map: an interview that writes its intent, primitives, capabilities and interfaces under docs/ as statements that must always hold, and a development skill that keeps the code in the primitives' shape and checks it keeps the invariants.",
   "author": {
     "name": "Will Regelmann"
