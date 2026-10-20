@@ -1,6 +1,6 @@
 ---
 name: map-project
-description: Maps a project's shape with its owner, by interviewing them and writing the map under docs/ (INTENT.md, then primitives, capabilities and interfaces, each a short file of statements that must always hold) — use when someone says "let's start a new project", "I want to build X", "map this out", "map this project", or "write the invariants", for a project that doesn't exist yet or one that already has code but no map, or when someone wants to add or change a primitive, capability or interface in an existing map. Stops at the map and does not plan or implement.
+description: Maps a project's shape with its owner, by interviewing them and writing the map under docs/ (INTENT.md, then capabilities, primitives and interfaces, each a short file of statements that must always hold) — use when someone says "let's start a new project", "I want to build X", "map this out", "map this project", or "write the invariants", for a project that doesn't exist yet or one that already has code but no map, or when someone wants to add or change a primitive, capability or interface in an existing map. Stops at the map and does not plan or implement.
 tags:
   - design
   - primitives
@@ -25,13 +25,13 @@ It's the north star for every agent that touches the project, for the project's 
 |------|-----|--------|
 | 1 | Listen, and check the ground: new, existing code, or an existing map | A shared picture of the project |
 | 2 | Intent | `docs/INTENT.md`, `docs/README.md` copied from the template, and a pointer to the map in `AGENTS.md` |
-| 3 | Primitives | `docs/primitives/<NOUN>.md` |
-| 4 | Capabilities | `docs/capabilities/<VERB>.md` |
+| 3 | Capabilities, from the owner's list | `docs/capabilities/<VERB>.md`, as drafts |
+| 4 | Primitives, proposed from them | `docs/primitives/<NOUN>.md`, and the capability drafts revised |
 | 5 | Interfaces | `docs/interfaces/<SURFACE>.md` |
 | 6 | Walk the map | Gaps closed, behaviour with its primitive, links resolve, nothing built in |
 | 7 | Hand off | A short summary, then stop |
 
-Work one layer at a time, in this order. Each layer uses the words the one before it defined. Get the owner's agreement on a layer before writing its files, and before starting the next.
+Work one layer at a time, in this order. It starts at what the owner already has in mind, the pitch and what the project must do, and goes towards what only careful design shows. The deeper the layer, the more of it you propose and the less the owner has to compose. Each layer uses the words the one before it settled. Get the owner's agreement on a layer before starting the next, and on a proposed layer before writing its files. The owner's own list of capabilities needs no agreement before its drafts are written.
 
 ## Interviewing
 
@@ -97,20 +97,47 @@ In the same step, point the project's agent instructions at the map, so the poin
 This project has a map in `docs/`: what it's for, what it's made of and what must always hold. Read `docs/README.md` before changing code, and work with the `develop-project` skill.
 ```
 
-### 3. Primitives
+### 3. Capabilities
+
+A capability is something the project does that the owner can name with a verb. This is the layer the owner most likely already has in mind, so it's their list. Ask for the core capabilities in their words, and draft a file for each. Don't propose capabilities of your own, except to point out a gap you can name with a specific case.
+
+These are drafts. The primitives don't exist yet, so each file says what happens in everyday words and links nothing. Step 4 revises them once it knows what the project is made of.
+
+```markdown
+# <Verb>
+
+<What it does, in everyday terms.>
+
+<Where judgment sits and what is fixed: "Deciding X takes judgment, so <who> makes
+that call. That Y happens is fixed.">
+
+## Invariants
+
+- ...
+```
+
+- **Say where judgment lives.** When a person or a model decides something, name who decides, and then state what is guaranteed whatever they decide. This is what lets a build leave room for judgment without leaving room for silence.
+- Look for: what it never does, what stays true if it runs twice, what happens when it fails, what it leaves untouched, when it runs and when it mustn't.
+- **A capability can be deferred.** Write `**Deferred.**` under its description and record only the guardrails that are already settled.
+- Don't worry yet whether a capability is really one primitive's own job. Step 4 settles that.
+
+### 4. Primitives
 
 A primitive is a thing the project is made of, and that would exist in any implementation of it. You'd need the word to explain the project to someone. It's also where behaviour lives: how one comes to exist, how it changes, how it ends and what it never does all belong in its file, not in a capability.
 
-This is the layer that decides whether the structure will be beautiful. Spend the most effort here.
+This is the layer that decides whether the structure will be beautiful. Spend the most effort here, and propose it yourself: the owner has described what the project does, and the things it's made of are what those descriptions keep naming.
 
-Propose the list before writing files: each name, one line on what it is, and why it's its own thing. Also list what you considered and folded in. Expect three to six.
+Propose the list before writing files: each name, one line on what it is, and why it's its own thing. Also list what you considered and folded in, and which capability drafts it changes (see "Fold behaviour in" below). Expect three to six.
 
+- **Read the capabilities for the things.** The nouns that keep turning up across them are the candidates. When the same record, condition or relationship appears in several capabilities, a primitive is often missing. Name it and give it a file.
 - **Collapse hard.** For every pair, ask if they're different kinds of thing, or the same kind in different circumstances. If what separates them is how they came to be or how they're connected, they're one primitive, and its description says so. An observation, a belief and a concept are all memories. A prepared slide and one sketched ten seconds ago are both slides.
 - **Don't collapse one word with two meanings.** Before merging, check the opposite case: the same word meaning different things in different parts of the project. If a "policy" as billing sees it and a "policy" as underwriting sees it hold different things and follow different rules, they are two primitives, even when they share an identity. Give each its own name, and say in each description how it relates to the other. If many words split this way, the idea may be more than one project. Say so to the owner.
 - **Find the idea the rest follows from.** Look for the one statement about a primitive that many of its rules follow from. "How much a memory is believed is never stored: it's read off its evidence" explains why belief fades, why it can always be explained, why recalling a memory never changes it, and why recalibrating never rewrites the record. A primitive with an idea like that needs few invariants. One that needs a long list of unrelated rules is probably the wrong abstraction, so look again before adding more.
-- **Name the concept that keeps turning up.** When the same record, condition or relationship appears in several files, a primitive is often missing. Name it and give it a file.
 - **A thing, not a view of one.** What a thing looks like in one moment or to one reader, such as a memory as it comes to mind or a deck as it appears on screen, is a view of a primitive, not a primitive. Its rules belong to the capability or interface that produces the view.
 - **Not primitives:** a field of something else, a storage structure, a screen, or anyone who uses the project. A person is never a primitive. What the project keeps about them can be: the user isn't a primitive, but their mind is.
+- **Fold behaviour in.** Check each capability draft against the primitives. Invariants that are all about one primitive, how it begins, changes or ends, belong in that primitive's file. When nothing is left, the capability isn't one: recording a memory, revising belief in it and forgetting it all turned out to be Memory, while consolidating many memories in the background didn't. The owner listed the capabilities, so show them each one that moves or goes, in the same round as the list.
+
+Once the owner agrees, write the primitive files. Then revise the capability drafts: move the folded invariants, delete the empty capabilities, and link each remaining capability to the primitives it spans.
 
 Each file:
 
@@ -134,28 +161,6 @@ judgment, so <who> makes that call. How Y follows is fixed.">
 A lifecycle or a relationship diagram can sit above the invariants when it saves reading. See [Diagrams](#diagrams).
 
 Look for: what it belongs to, how one comes to exist, how it changes and how it ends, what about it never changes, what is only ever added, what is kept and what deleting means, what it never claims, and what it does when it can't do its job.
-
-### 4. Capabilities
-
-A capability is a process the project carries out across several primitives, which isn't the natural job of any one of them. It's named with a verb. Most behaviour already lives in the primitives, so expect few capabilities. Propose the list the same way: name, one line, why it isn't a primitive's own job.
-
-```markdown
-# <Verb>
-
-<What it does, across which [primitives](../primitives/NOUN.md).>
-
-<Where judgment sits and what is fixed: "Deciding X takes judgment, so <who> makes
-that call. That Y happens is fixed.">
-
-## Invariants
-
-- ...
-```
-
-- **Fold before you add.** Check each candidate's invariants. If they're all about one primitive, how it begins, changes or ends, they belong in that primitive's file and the candidate isn't a capability. Recording a memory, revising belief in it and forgetting it all turned out to be Memory. Consolidating many memories in the background didn't.
-- **Say where judgment lives.** When a person or a model decides something, name who decides, and then state what is guaranteed whatever they decide. This is what lets a build leave room for judgment without leaving room for silence.
-- Look for: what it never does, what stays true if it runs twice, what happens when it fails, what it leaves untouched, when it runs and when it mustn't.
-- **A capability can be deferred.** Write `**Deferred.**` under its description and record only the guardrails that are already settled.
 
 ### 5. Interfaces
 
@@ -193,7 +198,7 @@ Propose the list, then check it against the capabilities: **something must start
 
 Read the whole map once, as a builder who has nothing else.
 
-- **Links.** When a file means another file's subject specifically, its first mention is a relative link, and every link resolves. An everyday use of the same word needs no link. Files written early can point forward now that the later ones exist.
+- **Links.** When a file means another file's subject specifically, its first mention is a relative link, and every link resolves. An everyday use of the same word needs no link. Capabilities were drafted before the primitives existed, so check that each now links the primitives it spans. Files written early can point forward now that the later ones exist.
 - **Behaviour sits with its primitive.** No capability's invariants are all about one primitive. If one's are, fold them in and delete the capability.
 - **Few rules per idea.** A file past ten invariants, or one whose invariants don't share an idea, is where an abstraction is missing or wrong. Look there before adding anything else.
 - **Primitives are used.** Each one is read or changed by at least one capability or surface. If not, it isn't a primitive or something is missing.
@@ -263,7 +268,8 @@ Once a project is mapped, changes don't wait for the owner. Make them and list t
 - **The core is the design.** The primitives are the abstractions every build shares. Get them right and the rest follows. Leave them open and each build invents its own.
 - **The map is enough, and no more.** Enough for a capable builder to get the core right, and open about everything around it.
 - **Invariants over instructions.** Say what must stay true and let the builder find the way there. Statements about what holds survive a rewrite. Statements about how to build it don't.
-- **Each layer earns the next.** Intent says what it's for, primitives give the words and the behaviour, capabilities do what no one thing does, and interfaces make it all reachable.
+- **Each layer earns the next.** Intent says what it's for, capabilities say what it must do, primitives are what those keep naming and where their behaviour lives, and interfaces make it all reachable.
+- **Start where the owner is.** The owner knows what the project is for and what it must do, so those come first, from them. The agent helps more the deeper it goes, so primitives and interfaces are proposals.
 - **Same kind of thing.** The most valuable move at the primitive layer is noticing that several things are one.
 - **One idea, many rules.** The best primitive has an idea its rules follow from.
 - **Judgment next to a guarantee.** Wherever someone decides, state what is fixed regardless.

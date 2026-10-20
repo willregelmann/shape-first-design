@@ -8,7 +8,8 @@ Deciding what the project is takes judgment, and some calls only the owner can m
 
 - **While a project is first mapped, the agent drafts and the owner decides.** Every question carries the agent's best answer as its default, and nothing the owner never saw is written into the map.
 - The owner is asked only what only they know, or where two capable builders would choose differently and the owner would mind. Everything else is left open, and not asked.
-- The layers are settled in order, intent, then primitives, capabilities and interfaces, and no layer is written before the owner agrees to it.
+- The layers are settled in order, intent, then capabilities, primitives and interfaces, from what the owner has in mind towards what the agent proposes. The capabilities are the owner's own list. The agent proposes the primitives and the interfaces, and writes no proposed layer before the owner agrees to it.
+- A capability whose rules turn out to be all about one primitive is folded into that primitive, and the owner is shown it.
 - An unresolved question stays out of the map and is reported. It's never settled by a guess.
 - Before mapping is done, the whole map is read as a builder with nothing else would read it: every link resolves, every primitive is used, every capability is reached, every promise in the intent is kept, and nothing is built in.
 - Mapping stops at the map. It never picks a stack, writes a plan or writes code.
