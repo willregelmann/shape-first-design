@@ -46,6 +46,8 @@ if __name__ == "__main__":
         skill.write_text(with_block(skill.read_text()))
         print(f"wrote the shared rules into {skill.relative_to(ROOT)}")
     for setup in sorted((ROOT / "evals").glob("*/setup.sh")):
+        if "/fixture" not in setup.read_text():
+            continue  # this case builds its workspace from its own files
         copy = setup.parent / "fixture"
         if copy.exists():
             shutil.rmtree(copy)

@@ -7,4 +7,4 @@ This repository is Shape-First Design: a Claude Code plugin with two skills, `ma
 
 ## The Map
 
-This project has a map in `docs/`: what it's for, what it's made of and what must always hold, with decision records for why. Read `docs/README.md` before changing code, and work with the `develop-project` skill.
+This project has a map in `docs/`: what it's for, what it's made of and what must always hold. Read `docs/README.md` before changing code, and work with the `develop-project` skill.

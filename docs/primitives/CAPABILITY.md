@@ -12,4 +12,3 @@ Where a person or a model decides something inside a capability, its file names 
 - It says what happens when it can't do its job, and never fails silently.
 - Every capability is started and observed through at least one [interface](INTERFACE.md).
 - A deferred capability records only the guardrails already settled, and nothing is built for it until it's no longer deferred.
-- It changes in place, and carries no history and no rationale.

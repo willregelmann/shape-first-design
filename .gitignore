@@ -1,2 +1,4 @@
 evals/results/
 __pycache__/
+
+.obsidian/

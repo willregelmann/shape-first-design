@@ -12,6 +12,6 @@ Whether code keeps an invariant about behaviour, such as "the user is not nagged
 - A measurement that's only reported is not a check. It becomes one when crossing a threshold fails.
 - **Results are reported as they are.** A failing check is never skipped or loosened to make work look done, and an invariant with no feasible check is reported as unchecked.
 - Every verdict is one of: held and checked, held but unchecked, broken (with the case), can't tell (with what would settle it), or not built yet.
-- It checks the shape as well as the rules: primitives with no home in the code, rules held outside their primitive, names that differ from the map's, and code that contradicts a [decision](../primitives/DECISION.md).
+- It checks the shape as well as the rules: primitives with no home in the code, rules held outside their primitive, names that differ from the map's, types in the core for a case a primitive already covers, and two names for one primitive.
 - It checks what agents are told as well as what the code does. A guide or a test can teach a broken rule.
 - A whole-project audit changes nothing. It proposes fixes, and makes them only when asked.

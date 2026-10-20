@@ -8,7 +8,6 @@ Exits 1 if any check fails. Standard library only.
 from __future__ import annotations
 
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -25,19 +24,9 @@ def check(fn):
     return fn
 
 
-def map_files() -> list[Path]:
-    """The map's own files: everything in docs/ except the README and the records."""
-    return sorted(p for p in DOCS.rglob("*.md")
-                  if p.name != "README.md" and "decisions" not in p.relative_to(DOCS).parts)
-
-
 def layer_files() -> list[Path]:
     return sorted(p for d in ("primitives", "capabilities", "interfaces")
                   for p in (DOCS / d).glob("*.md"))
-
-
-def records() -> list[Path]:
-    return sorted(p for p in (DOCS / "decisions").glob("*.md") if re.match(r"\d{4}-", p.name))
 
 
 def invariants(path: Path) -> list[str]:
@@ -50,14 +39,12 @@ def invariants(path: Path) -> list[str]:
 
 @check
 def copies_match_their_templates():
-    """docs/interfaces/DOCS.md: the README, 0000 and the template are copied word for word."""
+    """docs/interfaces/DOCS.md: the README is copied word for word."""
+    template = SHARED / "templates" / "README.md"
     projects = [DOCS] + sorted((ROOT / "evals" / "fixtures").glob("*/docs"))
-    pairs = [pair for docs in projects for pair in
-             [(docs / "README.md", SHARED / "templates" / "README.md")] + [
-                 (docs / "decisions" / t.name, t)
-                 for t in (SHARED / "templates" / "decisions").glob("*.md")]]
-    return [f"{c.relative_to(ROOT)} differs from {t.relative_to(ROOT)}"
-            for c, t in pairs if not c.exists() or c.read_bytes() != t.read_bytes()]
+    return [f"{(docs / 'README.md').relative_to(ROOT)} differs from {template.relative_to(ROOT)}"
+            for docs in projects
+            if not (docs / "README.md").exists() or (docs / "README.md").read_bytes() != template.read_bytes()]
 
 
 @check
@@ -75,13 +62,6 @@ def every_link_resolves():
             if not (p.parent / target).resolve().exists():
                 bad.append(f"{p.relative_to(ROOT)} -> {target}")
     return bad
-
-
-@check
-def the_map_never_links_to_a_record():
-    """docs/primitives/DECISION.md: the map never links to a record."""
-    return [f"{p.relative_to(ROOT)} links to {t}" for p in map_files()
-            for t in LINK.findall(p.read_text()) if "decisions/" in t]
 
 
 @check
@@ -163,6 +143,8 @@ def each_eval_case_carries_an_exact_copy_of_its_fixture():
     want = {p.relative_to(source): p.read_bytes() for p in source.rglob("*") if p.is_file()}
     bad = []
     for setup in sorted((ROOT / "evals").glob("*/setup.sh")):
+        if "/fixture" not in setup.read_text():
+            continue
         copy = setup.parent / "fixture"
         have = {p.relative_to(copy): p.read_bytes() for p in copy.rglob("*") if p.is_file()} \
             if copy.exists() else {}
@@ -172,31 +154,21 @@ def each_eval_case_carries_an_exact_copy_of_its_fixture():
 
 
 @check
-def records_are_numbered_in_order():
-    """docs/interfaces/DOCS.md: one record each, numbered in order from 0000."""
-    nums = [int(p.name[:4]) for p in records()]
-    return [] if nums == list(range(len(nums))) else [f"record numbers are {nums}"]
+def the_comparison_arms_differ_only_in_what_they_are_given():
+    """evals: the A/B/C comparison gives every arm the same task, the same brief and the same graders."""
+    arms = sorted((ROOT / "evals").glob("compare-*/"))
+    if len(arms) != 3:
+        return [f"expected three comparison arms, found {len(arms)}"]
 
+    def body(p: Path) -> str:
+        return p.read_text().split("---", 2)[2]
 
-@check
-def a_record_is_never_edited():
-    """docs/primitives/DECISION.md: a record is never edited, except to add a Superseded-by line."""
-    base = subprocess.run(["git", "-C", str(ROOT), "merge-base", "HEAD", "main"],
-                          capture_output=True, text=True).stdout.strip()
-    if not base:
-        return []  # no main to compare with
     bad = []
-    for p in records():
-        rel = str(p.relative_to(ROOT))
-        if subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", f"{base}:{rel}"],
-                          capture_output=True).returncode:
-            continue  # new since main
-        diff = subprocess.run(["git", "-C", str(ROOT), "diff", "-U0", base, "--", rel],
-                              capture_output=True, text=True).stdout
-        changed = [l for l in diff.splitlines()
-                   if l[:1] in "+-" and not l.startswith(("+++", "---"))]
-        if any(not re.fullmatch(r"\+Superseded by ADR-\d{4}\.|\+", l) for l in changed):
-            bad.append(f"{rel} was edited")
+    for name, get in (("prompt", lambda a: body(a / "prompt.md")),
+                      ("brief", lambda a: (a / "workspace" / "README.md").read_text()),
+                      ("graders", lambda a: {g.name: g.read_bytes() for g in (a / "graders").glob("*.md")})):
+        if len({repr(get(a)) for a in arms}) != 1:
+            bad.append(f"the arms have different {name}s")
     return bad
 
 

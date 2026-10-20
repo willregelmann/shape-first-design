@@ -11,7 +11,7 @@ Good code and an intuitive mental model go together. Code someone can explain wi
 | Skill | What it does |
 |-------|-------------|
 | [map-project](skills/map-project/SKILL.md) | Interviews you about a project, new or existing, and writes its map under `docs/`, one layer at a time, then stops |
-| [develop-project](skills/develop-project/SKILL.md) | Builds and changes a mapped project: keeps the core in the primitives' shape, checks that the code keeps the invariants, records architecture decisions, and sends changes to what the project is back through `map-project` |
+| [develop-project](skills/develop-project/SKILL.md) | Builds and changes a mapped project: keeps the core in the primitives' shape, checks that the code keeps the invariants, and sends changes to what the project is back through `map-project` |
 
 ## Install
 
@@ -29,11 +29,10 @@ The skill activates when you say something like "let's start a new project, I wa
 ```
 docs/
   README.md                 how to read the map, copied from a standard template
-  INTENT.md                 what it's for, and what would make it pointless
+  INTENT.md                 what it's for
   primitives/<NOUN>.md      what it's made of, and how each thing behaves: the core of the code
   capabilities/<VERB>.md    what it does that no one thing does
   interfaces/<SURFACE>.md   where the outside touches it: TOOLS, HOOKS, JOBS, API
-  decisions/NNNN-*.md       why it has this shape, as MADR records
 ```
 
 Each file is a short description followed by a list of invariants. An invariant is true at every moment, in every build of the project:
@@ -43,13 +42,11 @@ Each file is a short description followed by a list of invariants. An invariant 
 | "Memories are rows in a SQLite table" | "A memory's content is never edited. When it turns out to be wrong, a new memory supersedes it." |
 | "Listeners can ask questions" | "No question is dropped. Every question is answered, put off out loud, or declined out loud." |
 
-The map says what holds. The decision records say why: each fork you settle during the interview is written down with the options that were turned down, so a later agent can find the reason before undoing it.
-
-The skill drafts and you correct. It asks only what you alone know: who it's for, what would make it pointless, what it must work with, and which of two reasonable shapes you want. Once a project is mapped, the map changes as the project does without waiting for you: every change gets a decision record and is listed in the report, so you can reverse it. Only the intent, and what's deliberately out or deferred, still come to you.
+The skill drafts and you correct. It asks only what you alone know: who it's for, what it must work with, and which of two reasonable shapes you want. Once a project is mapped, the map changes as the project does without waiting for you: every change is listed in the report, so you can reverse it. Only the intent, and what's deliberately out or deferred, still come to you.
 
 ## How They Fit
 
-`map-project` stops at the map. `develop-project` does the work, from the first build to a fix years later, and checks every change against the map: each invariant it touches gets a check named after it that has been seen to fail. When a change would alter what the project is, or the code fights the map, it goes back through `map-project` first, so the map and its decision records stay the source of truth.
+`map-project` stops at the map. `develop-project` does the work, from the first build to a fix years later, and checks every change against the map: each invariant it touches gets a check named after it that has been seen to fail. When a change would alter what the project is, or the code fights the map, it goes back through `map-project` first, so the map stays the source of truth.
 
 ## Structure
 

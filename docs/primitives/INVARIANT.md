@@ -11,4 +11,3 @@ An invariant says what holds, never how. So it survives a rewrite, and two build
 - An invariant that ties primitives together says whether it holds at every moment or catches up, and by when.
 - It states a limit, never its value, and names a technology only when the project must meet it.
 - The few a project would be a different project without are bold, and no others.
-- It changes in place, and carries no history and no rationale.

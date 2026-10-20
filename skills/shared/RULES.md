@@ -14,7 +14,6 @@ Both skills, `map-project` and `develop-project`, follow these rules. This file 
 | **Capability** | A process across primitives that no one primitive owns |
 | **Interface** | A surface where the outside touches the project |
 | **Invariant** | A statement that holds at every moment, in every build |
-| **Decision** | A record of a choice someone could later want to undo, kept in `docs/decisions/` |
 | **Check** | Something that would notice an invariant breaking |
 | **Audit** | Showing whether the code keeps the map, for one change or a whole project |
 
@@ -25,18 +24,17 @@ Both skills, `map-project` and `develop-project`, follow these rules. This file 
 ```
 docs/
   README.md                    how to read the map, copied from templates/README.md
-  INTENT.md                    what it's for, and what would make it pointless
+  INTENT.md                    what it's for
   primitives/<NOUN>.md         what it's made of, and how each thing behaves
   capabilities/<VERB>.md       what it does that no one thing does
   interfaces/<SURFACE>.md      where the outside touches it, and what crosses
-  decisions/NNNN-<title>.md    why it has this shape, as MADR records
 ```
 
-`AGENTS.md`, or `CLAUDE.md` if the project uses that, points at the map. Every file except `INTENT.md` and the records is a short description followed by invariants. Filenames are uppercase: a singular noun for a primitive, a verb for a capability, and the surface's common name for an interface.
+`AGENTS.md`, or `CLAUDE.md` if the project uses that, points at the map. Every file except `INTENT.md` is a short description followed by invariants. Filenames are uppercase: a singular noun for a primitive, a verb for a capability, and the surface's common name for an interface.
 
 | Layer | Answers | Named with | Examples |
 |-------|---------|-----------|----------|
-| Intent | What is this for, and what would make it pointless? | The project's name | `INTENT.md` |
+| Intent | What is this for? | The project's name | `INTENT.md` |
 | Primitives | What is it made of, and how does each thing behave? | A singular noun | `MEMORY.md`, `DECK.md`, `QUESTION.md` |
 | Capabilities | What does it do that no one thing does? | A verb | `CONSOLIDATE.md`, `RECALL.md`, `ANSWER.md` |
 | Interfaces | Where does the outside touch it, and what crosses? | The surface's common name | `TOOLS.md`, `HOOKS.md`, `JOBS.md`, `API.md` |
@@ -69,17 +67,6 @@ An invariant is a statement about the project that is true at every moment, in e
 
 **Numbers.** State the limit, not its value. "Strictly limited per conversation" survives every build. A number is a tuning decision that a build makes and measures.
 
-## Decisions
-
-The map says what holds. `docs/decisions/` says why. The conventions for records are in the `0000` record, which is copied into every project with the MADR template; both are among the templates. In short:
-
-- **Write a record when a choice is made that someone could later want to undo.** The bar is the same as for asking the owner: two capable builders would choose differently and the owner would mind. `map-project` records choices about what the project is; `develop-project` records choices about how it's built.
-- **A pattern or a boundary, not a setting.** If changing a value or a name leaves the record true, it isn't a record.
-- **The map never links to a record.** A record links to the map files that hold its decision, and its Confirmation names the invariants or checks that keep it true.
-- **Only what was weighed.** List the options actually on the table, give the reason of whoever decided, in their words where they gave one, and write `TODO` where the reason is unknown. Never invent a rejected option.
-- **Written at the time.** A record written after the fact says so.
-- **Never edited.** A reversed decision gets a new record that supersedes the old one, and the old record gets only a `Superseded by ADR-NNNN.` line under its title.
-
 ## Diagrams
 
 Diagrams help a person who skims. Use them where they save reading, and nowhere else.
@@ -102,7 +89,7 @@ Diagrams help a person who skims. Use them where they save reading, and nowhere 
 
 ## Writing Style
 
-For the map and the records:
+For the map:
 
 - Plain, everyday words. Describe the project the way you'd explain it to someone who will never see the code.
 - Short declarative sentences in the present tense. "Never", "always", "only", "exactly one".
@@ -110,4 +97,4 @@ For the map and the records:
 - Concrete examples in quotes beat abstractions: "is your favorite color still pink?", "wait, why?".
 - Use colons and commas for asides, not dashes.
 - Files are short: a description and four to ten invariants. A file that keeps growing is usually two things, or a thing still missing its idea.
-- No status, no dates, no rationale, no references to the conversation that wrote it. Rationale goes in a record.
+- No status, no dates, no rationale, no references to the conversation that wrote it.
